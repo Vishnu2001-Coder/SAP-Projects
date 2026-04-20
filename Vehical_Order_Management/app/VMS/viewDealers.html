@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dealers</title>
+
+<style>
+
+body{
+font-family:Segoe UI;
+background:#0d1b2a;
+color:white;
+padding:40px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+color:black;
+}
+
+th,td{
+padding:10px;
+border:1px solid #ccc;
+text-align:center;
+}
+
+th{
+background:#e63946;
+color:white;
+}
+
+button{
+padding:8px 15px;
+background:#e63946;
+color:white;
+border:none;
+cursor:pointer;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Dealers</h2>
+
+<table id="dealerTable">
+<thead>
+<tr>
+<th>Dealer ID</th>
+<th>Dealer Name</th>
+<th>State ID</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+
+</table>
+
+<br>
+
+<button onclick="window.location.href='dashboard.html'">
+Back to Dashboard
+</button>
+
+<script>
+
+async function loadDealers(){
+
+const response = await fetch("/odata/v4/vehicle/Dealers");
+
+const data = await response.json();
+
+const dealers = data.value;
+
+const tableBody = document.querySelector("#dealerTable tbody");
+
+dealers.forEach(d => {
+
+const row = document.createElement("tr");
+
+row.innerHTML = `
+<td>${d.dealerId}</td>
+<td>${d.dealerName}</td>
+<td>${d.stateId}</td>
+`;
+
+tableBody.appendChild(row);
+
+});
+
+}
+
+loadDealers();
+
+</script>
+
+</body>
+</html>

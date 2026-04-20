@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Update Vehicle</title>
+
+<style>
+
+body{
+font-family:Segoe UI;
+background:linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.9)),
+url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+background-size:cover;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+padding:40px;
+border-radius:10px;
+width:350px;
+backdrop-filter:blur(6px);
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:5px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#e63946;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+}
+
+.back{
+display:block;
+text-align:center;
+margin-top:10px;
+color:white;
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Update Vehicle Price</h2>
+
+<form id="updateForm">
+
+<input type="text" id="vehicleId" placeholder="Vehicle ID (ex: AP7429)" required>
+
+<input type="number" id="cur_price" placeholder="New Price" required>
+
+<button type="submit">Update Vehicle</button>
+
+</form>
+
+<a class="back" href="dashboard.html">⬅ Back to Dashboard</a>
+
+</div>
+
+<script>
+
+document.getElementById("updateForm").addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const vehicleId = document.getElementById("vehicleId").value;
+const cur_price = parseFloat(document.getElementById("cur_price").value);
+
+const response = await fetch(`/odata/v4/vehicle/Vehicles('${vehicleId}')`,{
+method:"PATCH",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+vehicleId: vehicleId,
+cur_price: cur_price
+})
+});
+
+if(response.ok){
+alert("Vehicle Updated Successfully");
+}else{
+alert("Update Failed");
+}
+
+});
+
+</script>
+
+</body>
+</html>

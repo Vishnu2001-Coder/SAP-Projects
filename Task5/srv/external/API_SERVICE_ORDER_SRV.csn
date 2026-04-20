@@ -1,0 +1,2481 @@
+{
+ "meta": {
+  "creator": "cds-dk 9.6.1"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "API_SERVICE_ORDER_SRV": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true",
+   "@sap.message.scope.supported": "true",
+   "@sap.supported.formats": "atom json xlsx"
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrder": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction Type",
+     "@sap.quickinfo": "Business Transaction Type"
+    },
+    "ServiceOrderUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Object GUID",
+     "@sap.quickinfo": "GUID of a CRM Order Object"
+    },
+    "ServiceOrderDescription": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Transaction Descr.",
+     "@sap.quickinfo": "Transaction Description"
+    },
+    "ServiceObjectType": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Trans. Cat.",
+     "@sap.quickinfo": "Business Trans. Cat."
+    },
+    "Language": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language",
+     "@sap.quickinfo": "Language Key of Description"
+    },
+    "ServiceDocumentPriority": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Priority",
+     "@sap.quickinfo": "Activity Priority"
+    },
+    "RequestedServiceStartDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Service Req. Start",
+     "@sap.quickinfo": "Service Request Start Date"
+    },
+    "RequestedServiceEndDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Service Request Due",
+     "@sap.quickinfo": "Service Request Due Date"
+    },
+    "ErlstRequestedDeliveryDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Short Time Stamp",
+     "@sap.quickinfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
+    },
+    "ServiceDocChangedDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Changed On",
+     "@sap.quickinfo": "Changed At",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "ServiceDocumentChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Changed By",
+     "@sap.quickinfo": "Transaction Last Changed By",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "ServiceDocumentTemplateType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Templ. Type",
+     "@sap.quickinfo": "Template Type of CRM Transaction"
+    },
+    "PurchaseOrderByCustomer": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "Ext. Reference",
+     "@sap.quickinfo": "Sold-To Party's External Reference Number"
+    },
+    "CustomerPurchaseOrderDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Reference Doc. Date",
+     "@sap.quickinfo": "Reference Document Date"
+    },
+    "ServiceOrderIsReleased": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Release Status"
+    },
+    "ServiceOrderIsCompleted": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "ServiceOrderIsRejected": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Cancellation Status"
+    },
+    "SalesOrganization": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sales Organization"
+    },
+    "DistributionChannel": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Distribution Channel"
+    },
+    "Division": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Division"
+    },
+    "SalesOffice": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sales Office"
+    },
+    "SalesGroup": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sales Group"
+    },
+    "SoldToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sold-To Party"
+    },
+    "ShipToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Ship-To Party"
+    },
+    "BillToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Bill-To Party"
+    },
+    "PayerParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Payer"
+    },
+    "ContactPerson": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Contact Person",
+     "@sap.quickinfo": "Customer Contact Person"
+    },
+    "ServiceDocGrossAmount": {
+     "type": "cds.Decimal",
+     "precision": 16,
+     "scale": 3,
+     "@sap.unit": "TransactionCurrency",
+     "@sap.label": "Gross Value",
+     "@sap.quickinfo": "Total Gross Value of Document in Document Currency"
+    },
+    "ServiceDocNetAmount": {
+     "type": "cds.Decimal",
+     "precision": 16,
+     "scale": 3,
+     "@sap.unit": "TransactionCurrency",
+     "@sap.label": "Net Value",
+     "@sap.quickinfo": "Total Net Value of Document in Document Currency"
+    },
+    "ServiceDocTaxAmount": {
+     "type": "cds.Decimal",
+     "precision": 16,
+     "scale": 3,
+     "@sap.unit": "TransactionCurrency",
+     "@sap.label": "Total Tax Amount",
+     "@sap.quickinfo": "Total Tax Amount in Document Currency"
+    },
+    "TransactionCurrency": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Currency",
+     "@sap.semantics": "currency-code"
+    },
+    "ReferenceServiceRequest": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID"
+    },
+    "ReferenceServiceContract": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID"
+    },
+    "RefServiceOrderTemplate": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID"
+    },
+    "ReferenceServiceOrder": {
+     "type": "cds.String",
+     "length": 80,
+     "@sap.label": "Ref. Number",
+     "@sap.quickinfo": "External Reference Number"
+    },
+    "ShippingCondition": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Shipping Conditions"
+    },
+    "RespyMgmtServiceTeam": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Service Team",
+     "@sap.quickinfo": "Service Team (Responsibility Management)"
+    },
+    "RespyMgmtServiceTeamName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "RespyMgmtGlobalTeamID": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Global Team ID",
+     "@sap.quickinfo": "Global Team ID in Responsibility Mgmt."
+    },
+    "SrvcOrdCreditStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Header Credit Status",
+     "@sap.quickinfo": "Credit Status of Header",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SrvcOrdExecutionStatus": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Execution Status"
+    },
+    "PaymentTerms": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Terms of Payment"
+    },
+    "PaymentMethod": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Payment Method"
+    },
+    "SEPAMandate": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Mandate ID",
+     "@sap.quickinfo": "Unique Reference to Mandate per Payment Recipient"
+    },
+    "SrvcSEPAMandateRelevance": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "SEPA Relevant",
+     "@sap.quickinfo": "Indicator for SEPA-Relevant Transactions",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "WBSElementExternalID": {
+     "type": "cds.String",
+     "length": 24,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "WBS Element",
+     "@sap.quickinfo": "Work Breakdown Structure Element (WBS Element) Edited"
+    },
+    "SalesOrganizationOrgUnitID": {
+     "type": "cds.String",
+     "length": 14,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sales Org. ID",
+     "@sap.quickinfo": "Sales Organization ID"
+    },
+    "ServiceOrganization": {
+     "type": "cds.String",
+     "length": 14,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Service Organization"
+    },
+    "SalesOfficeOrgUnitID": {
+     "type": "cds.String",
+     "length": 14,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sales Office"
+    },
+    "SalesGroupOrgUnitID": {
+     "type": "cds.String",
+     "length": 14,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sales Group"
+    },
+    "FSMServiceCall": {
+     "type": "cds.String",
+     "length": 70,
+     "@sap.label": "Key",
+     "@sap.quickinfo": "Object key"
+    },
+    "ServiceOrderRejectionReason": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Cancel. Reason Code",
+     "@sap.quickinfo": "Cancellation Reason Code"
+    },
+    "ReferenceInHouseRepair": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "In-House Repair",
+     "@sap.quickinfo": "Reference In-House Repair"
+    },
+    "ReferenceInHouseRepairItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Ref. Repair Object",
+     "@sap.quickinfo": "Reference In-House Repair Item"
+    },
+    "to_Appointment": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdAppointment",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Confirmation": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderConfirmation",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Defect": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderDefect",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Duration": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdDuration",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Item": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderItem",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Partner": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdPartner",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_PersonResponsible": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderPersonResp",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_PricingElement": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderPriceElement",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_ProductReferenceObject": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdProdRefObject",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_ReferenceObject": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderRefObject",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_ReferenceServiceContract": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdRefServiceContract",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_ServiceOrdUserStatus": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrdUserStatus",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Text": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderConfirmation": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Confirmations",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceConfirmation": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderDefect": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.content.version": "1",
+   "@sap.label": "Defect Data Within Service Order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "SrvcDocTypeDefectCodeProfType": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "SubjPrfileCtgry",
+     "@sap.quickinfo": "Subject Profile Category",
+     "notNull": true
+    },
+    "ServiceDefectSequence": {
+     "key": true,
+     "type": "cds.Integer",
+     "@sap.label": "Sort Field",
+     "notNull": true
+    },
+    "SrvcDocTypeDefectCodeProfile": {
+     "type": "cds.String",
+     "length": 9,
+     "@sap.label": "Subject Profile"
+    },
+    "ServiceDefectCodeCatalog": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Catalog"
+    },
+    "ServiceDefectCodeGroup": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Code Group"
+    },
+    "ServiceDefectCode": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Code"
+    },
+    "ServiceDefectSchema": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Schema ID",
+     "@sap.quickinfo": "Coherent Cat. - Aspect ID"
+    },
+    "ServiceDefectCategory": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Schema ID",
+     "@sap.quickinfo": "Coherent Cat. - Aspect ID"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderItem": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Items",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "ServiceOrderItemUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Object GUID",
+     "@sap.quickinfo": "GUID of a CRM Order Object"
+    },
+    "ServiceDocumentItemCharUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Object GUID",
+     "@sap.quickinfo": "32 Character CRM Object GUID (Converted)"
+    },
+    "ServiceOrderItemDescription": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Product Description"
+    },
+    "ServiceObjectType": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Trans. Cat.",
+     "@sap.quickinfo": "Business Trans. Cat."
+    },
+    "ServiceDocumentItemObjectType": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Object Type",
+     "@sap.quickinfo": "CRM Item Object Type"
+    },
+    "Language": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language",
+     "@sap.quickinfo": "Short Text Language for an Item"
+    },
+    "Product": {
+     "type": "cds.String",
+     "length": 54,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Product Name",
+     "@sap.quickinfo": "Product Name Entered"
+    },
+    "Quantity": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.unit": "QuantityUnit",
+     "@sap.label": "Order Quantity",
+     "@sap.quickinfo": "CRM: Order Quantity"
+    },
+    "QuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Sales Unit",
+     "@sap.quickinfo": "Unit of Measure in Which the Product Is Sold",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "ServiceDocItemChangedDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Changed On",
+     "@sap.quickinfo": "Changed At",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "ServiceDocItemChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Changed By",
+     "@sap.quickinfo": "Transaction Last Changed By",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SrvcOrdItmResvnIsExisting": {
+     "type": "cds.Boolean",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SrvcOrdItemReservedQuantity": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.unit": "QuantityUnit",
+     "@sap.label": "Confirmed Quantity",
+     "@sap.quickinfo": "CRM: Confirmed Quantity",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "ServiceDuration": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.label": "Duration"
+    },
+    "ServiceDurationUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Unit",
+     "@sap.quickinfo": "Unit for Duration of Work",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "ServiceOrderItemCategory": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Item Category"
+    },
+    "ServiceOrdItemRejectionReason": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Cancel. Reason Code",
+     "@sap.quickinfo": "Cancellation Reason Code"
+    },
+    "BillableControl": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Accounting Indicator"
+    },
+    "SoldToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sold-To Party"
+    },
+    "ShipToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Ship-To Party"
+    },
+    "BillToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Bill-To Party"
+    },
+    "PayerParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Payer"
+    },
+    "ContactPersonBusinessPartnerId": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Contact Person",
+     "@sap.quickinfo": "Customer Contact Person"
+    },
+    "PersonResponsible": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Employee Responsible"
+    },
+    "ExecutingServiceEmployee": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Exec.Service Emp.",
+     "@sap.quickinfo": "Executing Service Employee"
+    },
+    "ServicePerformer": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Business Partner",
+     "@sap.quickinfo": "Business Partner Number"
+    },
+    "ServiceOrderItemIsReleased": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Release Status"
+    },
+    "ServiceOrderItemIsCompleted": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "ServiceOrderItemIsRejected": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Cancellation Status"
+    },
+    "ReferenceServiceContract": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID"
+    },
+    "ReferenceServiceContractItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document"
+    },
+    "RefServiceOrderTemplate": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID"
+    },
+    "RefServiceOrderTemplateItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document"
+    },
+    "ReferenceServiceRequest": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID"
+    },
+    "ReferenceServiceRequestItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document"
+    },
+    "ParentServiceOrderItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document"
+    },
+    "PlannedServiceStartDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Service Planned From",
+     "@sap.quickinfo": "Service Planned From Date"
+    },
+    "PlannedServiceEndDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Service Planned To",
+     "@sap.quickinfo": "Service Planned To Date"
+    },
+    "RequestedServiceStartDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Service Req. Start",
+     "@sap.quickinfo": "Service Request Start Date"
+    },
+    "RequestedServiceEndDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Service Request Due",
+     "@sap.quickinfo": "Service Request Due Date"
+    },
+    "SrvcDocItemSLADueByDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Due By"
+    },
+    "ErlstRequestedDeliveryDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Short Time Stamp",
+     "@sap.quickinfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
+    },
+    "ActualServiceDuration": {
+     "type": "cds.Decimal",
+     "precision": 7,
+     "scale": 2,
+     "@sap.label": "Actual Duration",
+     "@sap.quickinfo": "Confirmed Duration"
+    },
+    "ActualServiceDurationUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Time Unit",
+     "@sap.quickinfo": "Time Unit for Confirmed Duration",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "SrvcContrDetnIsSpprsd": {
+     "type": "cds.Boolean",
+     "@sap.label": "Status Is Active"
+    },
+    "ReferenceServiceOrderItem": {
+     "type": "cds.String",
+     "length": 80,
+     "@sap.label": "Ref. Number",
+     "@sap.quickinfo": "External Reference Number"
+    },
+    "ShippingCondition": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Shipping Conditions"
+    },
+    "SrvcDocItmPartReferenceItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SrvcDocItmApptReferenceItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SrvcDocItmApptRefObjectUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Object GUID",
+     "@sap.quickinfo": "GUID of a CRM Order Object",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SrvcOrdItemIsUnplanned": {
+     "type": "cds.Boolean",
+     "@sap.label": "Unplanned Item"
+    },
+    "FSMServiceActivity": {
+     "type": "cds.String",
+     "length": 32,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Object ID",
+     "@sap.quickinfo": "Identification of a Reference Object for Items"
+    },
+    "TimeSheetOvertimeCategory": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Overtime Category"
+    },
+    "RespyMgmtServiceTeam": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Service Team",
+     "@sap.quickinfo": "Service Team (Responsibility Management)"
+    },
+    "RespyMgmtServiceTeamName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "RespyMgmtGlobalTeamID": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Global Team ID",
+     "@sap.quickinfo": "Global Team ID in Responsibility Mgmt."
+    },
+    "ProfitCenter": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Profit Center"
+    },
+    "SrvcOrdItemCreditStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Item Credit Status",
+     "@sap.quickinfo": "Credit Status of Item",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SrvcOrdItemExecutionStatus": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Execution Status"
+    },
+    "PaymentTerms": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Terms of Payment"
+    },
+    "PaymentMethod": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Payment Method"
+    },
+    "SEPAMandate": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Mandate ID",
+     "@sap.quickinfo": "Unique Reference to Mandate per Payment Recipient"
+    },
+    "SrvcSEPAMandateRelevance": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "SEPA Relevant",
+     "@sap.quickinfo": "Indicator for SEPA-Relevant Transactions",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "WBSElementExternalID": {
+     "type": "cds.String",
+     "length": 24,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "WBS Element",
+     "@sap.quickinfo": "Work Breakdown Structure Element (WBS Element) Edited"
+    },
+    "to_Appointment": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdItemAppointment",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Confirmation": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderItemConfirmation",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Duration": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdItemDuration",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Partner": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdItmPartner",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_PricingElement": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderItemPriceElement",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_ProductReferenceObject": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdItmProdRefObject",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_ReferenceObject": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderItemRefObject",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_ServiceOrder": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrder",
+     "keys": []
+    },
+    "to_SrvcOrdItemUserStatus": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrdItemUserStatus",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Text": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrderItemText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderItemConfirmation": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Confirmations of Service Order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "ServiceConfirmation": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceConfirmationItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderItemPriceElement": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Price Element of Service Order Item",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "PricingProcedureStep": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Step Number",
+     "notNull": true
+    },
+    "PricingProcedureCounter": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Counter",
+     "@sap.quickinfo": "Condition Counter",
+     "notNull": true
+    },
+    "ConditionType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Condition Type"
+    },
+    "ConditionRateValue": {
+     "type": "cds.Decimal",
+     "precision": 24,
+     "scale": 9,
+     "@sap.label": "Amount",
+     "@sap.quickinfo": "Condition Amount or Percentage"
+    },
+    "ConditionCurrency": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Currency",
+     "@sap.quickinfo": "Currency Key",
+     "@sap.semantics": "currency-code"
+    },
+    "ConditionQuantity": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 0,
+     "@sap.unit": "ConditionQuantityUnit",
+     "@sap.label": "Pricing Unit",
+     "@sap.quickinfo": "Condition Pricing Unit"
+    },
+    "ConditionQuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Condition Unit",
+     "@sap.quickinfo": "Condition Unit in the Document",
+     "@sap.semantics": "unit-of-measure"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderItemRefObject": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Reference Objects of Service Order Item",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "ServiceReferenceEquipment": {
+     "key": true,
+     "type": "cds.String",
+     "length": 18,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Equipment",
+     "@sap.quickinfo": "Equipment Number",
+     "notNull": true
+    },
+    "ServiceRefFunctionalLocation": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Functional Location",
+     "notNull": true
+    },
+    "SrvcRefObjIsMainObject": {
+     "type": "cds.Boolean",
+     "@sap.label": "Main Ref. Object",
+     "@sap.quickinfo": "Main Reference Object"
+    },
+    "SerialNumber": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Serial Number"
+    },
+    "ReferenceProduct": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Reference Product ID"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderItemText": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.content.version": "1",
+   "@sap.label": "Text of Service Order Item",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "Language": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language Key",
+     "notNull": true
+    },
+    "LongTextID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Text ID",
+     "notNull": true
+    },
+    "LongText": {
+     "type": "cds.String"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderPersonResp": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.content.version": "1",
+   "@sap.label": "Employee Responsible for Service Order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "PersonResponsible": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Business Partner",
+     "@sap.quickinfo": "Business Partner Number",
+     "notNull": true
+    },
+    "CustMgmtPartnerIsMainPartner": {
+     "type": "cds.Boolean",
+     "@sap.label": "Main Partner",
+     "@sap.quickinfo": "Main Partner (For Ambiguous Partner Functions)"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderPriceElement": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Price Element of Service Order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "PricingProcedureStep": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Step Number",
+     "notNull": true
+    },
+    "PricingProcedureCounter": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Counter",
+     "@sap.quickinfo": "Condition Counter",
+     "notNull": true
+    },
+    "ConditionType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Condition Type"
+    },
+    "ConditionRateValue": {
+     "type": "cds.Decimal",
+     "precision": 24,
+     "scale": 9,
+     "@sap.label": "Amount",
+     "@sap.quickinfo": "Condition Amount or Percentage"
+    },
+    "ConditionCurrency": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Currency",
+     "@sap.quickinfo": "Currency Key",
+     "@sap.semantics": "currency-code"
+    },
+    "ConditionQuantity": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 0,
+     "@sap.unit": "ConditionQuantityUnit",
+     "@sap.label": "Pricing Unit",
+     "@sap.quickinfo": "Condition Pricing Unit"
+    },
+    "ConditionQuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Condition Unit",
+     "@sap.quickinfo": "Condition Unit in the Document",
+     "@sap.semantics": "unit-of-measure"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderRefObject": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Reference Objects of Service Order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceReferenceEquipment": {
+     "key": true,
+     "type": "cds.String",
+     "length": 18,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Equipment",
+     "@sap.quickinfo": "Equipment Number",
+     "notNull": true
+    },
+    "ServiceRefFunctionalLocation": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Functional Location",
+     "notNull": true
+    },
+    "SrvcRefObjIsMainObject": {
+     "type": "cds.Boolean",
+     "@sap.label": "Main Ref. Object",
+     "@sap.quickinfo": "Main Reference Object"
+    },
+    "SerialNumber": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Serial Number"
+    },
+    "ReferenceProduct": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Reference Product ID"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrderText": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Text",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "Language": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language Key",
+     "notNull": true
+    },
+    "LongTextID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Text ID",
+     "notNull": true
+    },
+    "LongText": {
+     "type": "cds.String"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrdItemUserStatus": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Item User Status",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "SrvcOrdItemUserStatus": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Status",
+     "@sap.quickinfo": "Object Status",
+     "notNull": true
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_ServiceOrdUserStatus": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order User Status",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "SrvcOrdUserStatus": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Status",
+     "@sap.quickinfo": "Object Status",
+     "notNull": true
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdAppointment": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Appointment",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "SrvcDocAppointmentType": {
+     "key": true,
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Date Type",
+     "@sap.quickinfo": "Technical Date Type Name",
+     "notNull": true
+    },
+    "SrvcDocApptStartDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Time Stamp (UTC) of Start Time of Appointment",
+     "@sap.heading": ""
+    },
+    "SrvcDocApptEndDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Time stamp of end of appointment",
+     "@sap.heading": ""
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdDuration": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Duration",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "SrvcDocDurationType": {
+     "key": true,
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Name of Duration",
+     "@sap.quickinfo": "Name for Type of Time Duration",
+     "notNull": true
+    },
+    "SrvcDocDurationValue": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 0,
+     "@sap.label": "Duration Value",
+     "@sap.quickinfo": "Numerical Value of Duration"
+    },
+    "SrvcDocDurationUnit": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Time Unit",
+     "@sap.quickinfo": "Default Value for Time Unit"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdItemAppointment": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Item Appointment",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "SrvcDocAppointmentType": {
+     "key": true,
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Date Type",
+     "@sap.quickinfo": "Technical Date Type Name",
+     "notNull": true
+    },
+    "SrvcDocApptStartDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Time Stamp (UTC) of Start Time of Appointment",
+     "@sap.heading": ""
+    },
+    "SrvcDocApptEndDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@sap.label": "Time stamp of end of appointment",
+     "@sap.heading": ""
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdItemDuration": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Item Duration",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "SrvcDocDurationType": {
+     "key": true,
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Name of Duration",
+     "@sap.quickinfo": "Name for Type of Time Duration",
+     "notNull": true
+    },
+    "SrvcDocDurationValue": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 0,
+     "@sap.label": "Duration Value",
+     "@sap.quickinfo": "Numerical Value of Duration"
+    },
+    "SrvcDocDurationUnit": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Time Unit",
+     "@sap.quickinfo": "Default Value for Time Unit"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdItmPartner": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Item Partner",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "CustMgmtPartnerFunction": {
+     "key": true,
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Partner func.",
+     "notNull": true
+    },
+    "CustMgmtBusinessPartner": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Business Partner",
+     "@sap.quickinfo": "Business Partner Number",
+     "notNull": true
+    },
+    "CustMgmtPartnerIsMainPartner": {
+     "type": "cds.Boolean",
+     "@sap.label": "Main Partner",
+     "@sap.quickinfo": "Main Partner (For Ambiguous Partner Functions)"
+    },
+    "to_Address": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdItmPartnerAddress",
+     "keys": []
+    },
+    "to_ServiceOrder": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrder",
+     "keys": []
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdItmPartnerAddress": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Partner Address of Service Order Item",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "CustMgmtPartnerFunction": {
+     "key": true,
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Partner func.",
+     "notNull": true
+    },
+    "CustMgmtBusinessPartner": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Business Partner",
+     "@sap.quickinfo": "Business Partner Number",
+     "notNull": true
+    },
+    "AddresseeFullName": {
+     "type": "cds.String",
+     "length": 80,
+     "@sap.label": "Full Name",
+     "@sap.quickinfo": "Full Name of Person",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "CityName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "City"
+    },
+    "CorrespondenceLanguage": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language Key"
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Country/Region Key"
+    },
+    "DistrictName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "District"
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241,
+     "@sap.label": "Email Address"
+    },
+    "FaxAreaCodeSubscriberNumber": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Fax",
+     "@sap.quickinfo": "Fax Number: Dialing Code and Number"
+    },
+    "FaxExtensionNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Extension",
+     "@sap.quickinfo": "Fax no.: Extension"
+    },
+    "FaxNumberCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Country/Region",
+     "@sap.quickinfo": "Country/Region for Telephone/Fax Number"
+    },
+    "FormOfAddress": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Title Key",
+     "@sap.quickinfo": "Form-of-Address Key"
+    },
+    "HouseNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "House Number"
+    },
+    "MobileNumber": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Telephone",
+     "@sap.quickinfo": "Telephone No.: Dialing Code and Number"
+    },
+    "MobilePhoneCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Country/Region",
+     "@sap.quickinfo": "Country/Region for Telephone/Fax Number"
+    },
+    "OrganizationName1": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Name",
+     "@sap.quickinfo": "Name 1"
+    },
+    "OrganizationName2": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Name 2"
+    },
+    "OrganizationName3": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Name 3"
+    },
+    "OrganizationName4": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Name 4"
+    },
+    "PersonFamilyName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Last Name"
+    },
+    "PersonGivenName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "First Name"
+    },
+    "PhoneExtensionNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Extension",
+     "@sap.quickinfo": "Telephone no.: Extension"
+    },
+    "PhoneNumber": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Telephone",
+     "@sap.quickinfo": "Telephone No.: Dialing Code and Number"
+    },
+    "PhoneNumberCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Country/Region",
+     "@sap.quickinfo": "Country/Region for Telephone/Fax Number"
+    },
+    "POBox": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "PO Box"
+    },
+    "POBoxPostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "PO Box Postal Code"
+    },
+    "PostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Postal Code",
+     "@sap.quickinfo": "City Postal Code"
+    },
+    "Region": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Region",
+     "@sap.quickinfo": "Region (State, Province, County)"
+    },
+    "StreetName": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Street"
+    },
+    "StreetPrefixName1": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Street 2"
+    },
+    "StreetPrefixName2": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Street 3"
+    },
+    "StreetSuffixName1": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Street 4"
+    },
+    "StreetSuffixName2": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Street 5"
+    },
+    "TaxJurisdiction": {
+     "type": "cds.String",
+     "length": 15,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Tax Jurisdiction"
+    },
+    "TransportZone": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transportation Zone",
+     "@sap.quickinfo": "Transportation zone to or from which the goods are delivered"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdItmProdRefObject": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Product reference object of a service order item",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item Number in Doc.",
+     "@sap.quickinfo": "Shortened Item Number in Document",
+     "notNull": true
+    },
+    "ServiceReferenceProduct": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Material",
+     "@sap.quickinfo": "Material Number",
+     "notNull": true
+    },
+    "SrvcRefObjIsMainObject": {
+     "type": "cds.Boolean",
+     "@sap.label": "Main Ref. Object",
+     "@sap.quickinfo": "Main Reference Object"
+    },
+    "SerialNumber": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Serial Number"
+    },
+    "ReferenceProduct": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Reference Product ID"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdPartner": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.content.version": "1",
+   "@sap.label": "Service Order Partner",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "CustMgmtPartnerFunction": {
+     "key": true,
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Partner func.",
+     "notNull": true
+    },
+    "CustMgmtBusinessPartner": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Business Partner",
+     "@sap.quickinfo": "Business Partner Number",
+     "notNull": true
+    },
+    "CustMgmtPartnerIsMainPartner": {
+     "type": "cds.Boolean",
+     "@sap.label": "Main Partner",
+     "@sap.quickinfo": "Main Partner (For Ambiguous Partner Functions)"
+    },
+    "to_Address": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_SrvcOrdPartnerAddress",
+     "keys": []
+    },
+    "to_ServiceOrder": {
+     "type": "cds.Association",
+     "target": "API_SERVICE_ORDER_SRV.A_ServiceOrder",
+     "keys": []
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdPartnerAddress": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Partner Address of Service Order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "CustMgmtPartnerFunction": {
+     "key": true,
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Partner func.",
+     "notNull": true
+    },
+    "CustMgmtBusinessPartner": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Business Partner",
+     "@sap.quickinfo": "Business Partner Number",
+     "notNull": true
+    },
+    "AddresseeFullName": {
+     "type": "cds.String",
+     "length": 80,
+     "@sap.label": "Full Name",
+     "@sap.quickinfo": "Full Name of Person",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "CityName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "City"
+    },
+    "CorrespondenceLanguage": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language Key"
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Country/Region Key"
+    },
+    "DistrictName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "District"
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241,
+     "@sap.label": "Email Address"
+    },
+    "FaxAreaCodeSubscriberNumber": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Fax",
+     "@sap.quickinfo": "Fax Number: Dialing Code and Number"
+    },
+    "FaxExtensionNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Extension",
+     "@sap.quickinfo": "Fax no.: Extension"
+    },
+    "FaxNumberCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Country/Region",
+     "@sap.quickinfo": "Country/Region for Telephone/Fax Number"
+    },
+    "FormOfAddress": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Title Key",
+     "@sap.quickinfo": "Form-of-Address Key"
+    },
+    "HouseNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "House Number"
+    },
+    "MobileNumber": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Telephone",
+     "@sap.quickinfo": "Telephone No.: Dialing Code and Number"
+    },
+    "MobilePhoneCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Country/Region",
+     "@sap.quickinfo": "Country/Region for Telephone/Fax Number"
+    },
+    "OrganizationName1": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Name",
+     "@sap.quickinfo": "Name 1"
+    },
+    "OrganizationName2": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Name 2"
+    },
+    "OrganizationName3": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Name 3"
+    },
+    "OrganizationName4": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Name 4"
+    },
+    "PersonFamilyName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Last Name"
+    },
+    "PersonGivenName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "First Name"
+    },
+    "PhoneExtensionNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Extension",
+     "@sap.quickinfo": "Telephone no.: Extension"
+    },
+    "PhoneNumber": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Telephone",
+     "@sap.quickinfo": "Telephone No.: Dialing Code and Number"
+    },
+    "PhoneNumberCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Country/Region",
+     "@sap.quickinfo": "Country/Region for Telephone/Fax Number"
+    },
+    "POBox": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "PO Box"
+    },
+    "POBoxPostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "PO Box Postal Code"
+    },
+    "PostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Postal Code",
+     "@sap.quickinfo": "City Postal Code"
+    },
+    "Region": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Region",
+     "@sap.quickinfo": "Region (State, Province, County)"
+    },
+    "StreetName": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Street"
+    },
+    "StreetPrefixName1": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Street 2"
+    },
+    "StreetPrefixName2": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Street 3"
+    },
+    "StreetSuffixName1": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Street 4"
+    },
+    "StreetSuffixName2": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Street 5"
+    },
+    "TaxJurisdiction": {
+     "type": "cds.String",
+     "length": 15,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Tax Jurisdiction"
+    },
+    "TransportZone": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transportation Zone",
+     "@sap.quickinfo": "Transportation zone to or from which the goods are delivered"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdProdRefObject": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Product reference object of a service order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ServiceReferenceProduct": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Material",
+     "@sap.quickinfo": "Material Number",
+     "notNull": true
+    },
+    "SrvcRefObjIsMainObject": {
+     "type": "cds.Boolean",
+     "@sap.label": "Main Ref. Object",
+     "@sap.quickinfo": "Main Reference Object"
+    },
+    "SerialNumber": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Serial Number"
+    },
+    "ReferenceProduct": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Reference Product ID"
+    }
+   }
+  },
+  "API_SERVICE_ORDER_SRV.A_SrvcOrdRefServiceContract": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Reference Service Contracts For Service Order",
+   "elements": {
+    "ServiceOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    },
+    "ReferenceServiceContract": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Transaction ID",
+     "notNull": true
+    }
+   }
+  }
+ }
+}

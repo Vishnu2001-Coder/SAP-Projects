@@ -1,0 +1,117 @@
+{
+ "meta": {
+  "creator": "cds-dk 9.6.1"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "API_MATERIAL_VALUATION_SRV": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true",
+   "@sap.supported.formats": "atom json xlsx"
+  },
+  "API_MATERIAL_VALUATION_SRV.MaterialValuationSet": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.pageable": "false",
+   "@sap.addressable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Material Valuation",
+   "elements": {
+    "CostEstimate": {
+     "key": true,
+     "type": "cds.String",
+     "length": 12,
+     "@sap.unicode": "false",
+     "@sap.label": "Cost EstimateNo",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    }
+   }
+  },
+  "API_MATERIAL_VALUATION_SRV.PriceChangeDocument": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "MaterialLedgerDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Material Ledger Document Number",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "MaterialLedgerDocumentYear": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Material Ledger Document Year",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    }
+   }
+  },
+  "API_MATERIAL_VALUATION_SRV.InventoryPriceChange": {
+   "kind": "action",
+   "@cds.external": true,
+   "params": {
+    "Currency": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "Currency"
+    },
+    "CurrencyRole": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Crcy type/val."
+    },
+    "Material": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Material"
+    },
+    "InventoryPrice": {
+     "type": "cds.Decimal",
+     "precision": 4,
+     "scale": 4,
+     "@sap.label": "Price"
+    },
+    "PostingDate": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime",
+     "@sap.label": "Posting Date"
+    },
+    "MaterialPriceUnitQty": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 0,
+     "@sap.label": "Price Unit"
+    },
+    "ValuationArea": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Valuation Area"
+    },
+    "InventoryValuationType": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Valuation Type"
+    }
+   },
+   "returns": {
+    "type": "API_MATERIAL_VALUATION_SRV.PriceChangeDocument"
+   }
+  }
+ }
+}

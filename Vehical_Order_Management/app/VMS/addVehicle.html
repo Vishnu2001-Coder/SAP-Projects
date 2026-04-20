@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Vehicle</title>
+
+<style>
+
+body{
+font-family:Segoe UI;
+background:linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.9)),
+url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+background-size:cover;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+padding:40px;
+border-radius:10px;
+width:350px;
+backdrop-filter:blur(6px);
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:5px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#e63946;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Add Vehicle</h2>
+
+<form id="vehicleForm">
+
+<input type="text" id="modelName" placeholder="Model Name" required>
+
+<input type="number" id="cur_price" placeholder="Current Price" required>
+
+<input type="text" id="dealer" placeholder="Dealer ID (ex: D101)" required>
+
+<button type="submit">Add Vehicle</button>
+
+</form>
+
+</div>
+
+<script>
+
+document.getElementById("vehicleForm").addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const data = {
+modelName : document.getElementById("modelName").value,
+cur_price : parseFloat(document.getElementById("cur_price").value),
+dealer_dealerId : document.getElementById("dealer").value
+};
+
+const res = await fetch("/odata/v4/vehicle/Vehicles",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+});
+
+if(res.ok){
+alert("Vehicle Added Successfully");
+}else{
+alert("Error adding vehicle");
+}
+
+});
+
+</script>
+
+</body>
+</html>

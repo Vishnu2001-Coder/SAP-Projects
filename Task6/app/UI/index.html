@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>🌍 Geo Location App</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to bottom, #87CEEB, #3CB371, #8B4513);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2F4F4F;
+        }
+
+        .container {
+            width: 350px;
+            margin: auto;
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        select, input {
+            padding: 8px;
+            margin: 5px;
+            width: 90%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px;
+            background: #2E8B57;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 95%;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #276747;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #details div {
+            background: #F5F5DC;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        iframe {
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🌍 Geo Location App</h1>
+
+<div class="container">
+
+    <select id="type">
+        <option value="geo">City / Pincode / Country</option>
+        <option value="district">District by State</option>
+    </select>
+
+    <input type="text" id="inputValue" placeholder="Enter value">
+
+    <button onclick="handleSearch()">Search</button>
+
+</div>
+
+<br>
+
+<!-- MAP -->
+<iframe id="map" width="100%" height="400"></iframe>
+
+<!-- RESULTS -->
+<div id="details"></div>
+
+<script>
+
+const BASE_URL = "https://port4004-workspaces-ws-eitp7.ap21.trial.applicationstudio.cloud.sap/odata/v4/my";
+
+// MAIN HANDLER
+async function handleSearch() {
+
+    const type = document.getElementById("type").value;
+    const value = document.getElementById("inputValue").value;
+
+    if (!value) {
+        alert("Please enter input");
+        return;
+    }
+
+    // ✅ Show map instantly using input
+    showMapBySearch(value);
+
+    let url = "";
+
+    if (type === "geo") {
+        url = `${BASE_URL}/getGeoInfo(datas='${value}')`;
+    } else {
+        url = `${BASE_URL}/getDistrictsByState(state='${value}')`;
+    }
+
+    try {
+        const res = await fetch(url);
+        const result = await res.json();
+
+        const data = result.value || result;
+
+        if (!data || data.length === 0) {
+            alert("No data found");
+            return;
+        }
+
+        const list = Array.isArray(data) ? data : [data];
+
+        let html = "";
+
+        list.forEach(loc => {
+
+            const lat = loc.latitude || loc.lat;
+            const lon = loc.longitude || loc.lon;
+            const name = loc.Name || loc.name || loc.distName;
+
+            html += `
+                <div onclick="showOnMap(${lat}, ${lon})">
+                    <b>${name}</b><br>
+                    Lat: ${lat} | Lon: ${lon}
+                </div>
+            `;
+        });
+
+        document.getElementById("details").innerHTML = html;
+
+        // ✅ Show first result accurately
+        const first = list[0];
+        showOnMap(first.latitude || first.lat, first.longitude || first.lon);
+
+    } catch (err) {
+        console.error(err);
+        alert("Error fetching data");
+    }
+}
+
+
+// ✅ Map using lat/lon (accurate)
+function showOnMap(lat, lon) {
+    document.getElementById("map").src =
+        `https://www.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+}
+
+
+// ✅ Map using input (fast)
+function showMapBySearch(text) {
+    document.getElementById("map").src =
+        `https://www.google.com/maps?q=${encodeURIComponent(text)}&output=embed`;
+}
+
+</script>
+
+</body>
+</html>

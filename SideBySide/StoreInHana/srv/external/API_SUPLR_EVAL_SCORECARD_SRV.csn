@@ -1,0 +1,528 @@
+{
+ "meta": {
+  "creator": "cds-dk 9.6.1"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "API_SUPLR_EVAL_SCORECARD_SRV": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true",
+   "@sap.message.scope.supported": "true",
+   "@sap.supported.formats": "atom json xlsx"
+  },
+  "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdPurchaserResp": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Purchaser Responsible",
+   "elements": {
+    "SuplrEvalScorecardPtyUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "@sap.label": "Eval Scrd Party UUID",
+     "@sap.quickinfo": "Evaluation Response Party UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "SuplrEvalScorecardUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Eval. Scorecard UUID",
+     "@sap.quickinfo": "Evaluation Scorecard UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "UserID": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "User",
+     "@sap.quickinfo": "User ID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    }
+   }
+  },
+  "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdQuestion": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Question",
+   "elements": {
+    "SuplrEvalSccrdQuestionUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "@sap.label": "Eval Sccrd Qst UUID",
+     "@sap.quickinfo": "Evaluation Scorecard Question UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "SuplrEvalSccrdUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Eval. Scorecard UUID",
+     "@sap.quickinfo": "Evaluation Scorecard UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SuplrEvalSccrdSectionUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Eval Sccrd Sect UUID",
+     "@sap.quickinfo": "Evaluation Scorecard Section UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SuplrEvalReqQuestionUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Eval Req Qst UUID",
+     "@sap.quickinfo": "Evaluation Request Question UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SupplierEvalQuestion": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Question ID",
+     "@sap.quickinfo": "Identifier for a Question",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SupplierEvalRequestQuestion": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Question ID",
+     "@sap.quickinfo": "Identifier for a Question",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "QuestionName": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Name",
+     "@sap.quickinfo": "Medium-Size Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SLCQuestionType": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Question Type Code",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "WeightingFactor": {
+     "type": "cds.Integer",
+     "@sap.label": "WeightingFactorVal",
+     "@sap.quickinfo": "Value of Weighting Factor",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "MinimalScore": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Minimum Score",
+     "@sap.quickinfo": "Minimum Score Accepted",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "TargetScore": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Target Score",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    }
+   }
+  },
+  "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdSection": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Section",
+   "elements": {
+    "SuplrEvalSccrdSectionUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "@sap.label": "Eval Sccrd Sect UUID",
+     "@sap.quickinfo": "Evaluation Scorecard Section UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "SuplrEvalSccrdUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Eval. Scorecard UUID",
+     "@sap.quickinfo": "Evaluation Scorecard UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SuplrEvalRspQuestionnaireUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Scorecard QNR UUID",
+     "@sap.quickinfo": "Evaluation Scorecard Questionnaire UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SupplierEvalScorecardSection": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Section",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SupplierEvalScorecardSctnAltv": {
+     "type": "cds.Integer",
+     "@sap.label": "Alternative ID",
+     "@sap.quickinfo": "Alternative ID of a Section",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "QuestionnaireSectionName": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Name",
+     "@sap.quickinfo": "Medium-Size Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "WeightingFactor": {
+     "type": "cds.Integer",
+     "@sap.label": "WeightingFactorVal",
+     "@sap.quickinfo": "Value of Weighting Factor",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "MinimalScore": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Minimum Score",
+     "@sap.quickinfo": "Minimum Score Accepted",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "TargetScore": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Target Score",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "CalculatedScore": {
+     "type": "cds.Double",
+     "@sap.label": "Calculated Score",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "NumberOfResponses": {
+     "type": "cds.Integer",
+     "@sap.label": "Number of Responses",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "to_SuplrEvalSccrdQuestion": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdQuestion",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_SuplrEvalSccrdStrucQnaire": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdStrucQnaire",
+     "keys": []
+    },
+    "to_SupplierEvalScorecard": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalScorecard",
+     "keys": []
+    }
+   }
+  },
+  "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdStrucQnaire": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Structure Questionnaire",
+   "elements": {
+    "SuplrEvalScorecardQnaireUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "@sap.label": "Scorecard QNR UUID",
+     "@sap.quickinfo": "Evaluation Scorecard Questionnaire UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "QuestionnaireName": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Name",
+     "@sap.quickinfo": "Medium-Size Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SupplierEvalScorecardQnaire": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Questionnaire",
+     "@sap.quickinfo": "Supplier Evaluation Scorecard Questionnaire",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SuplrEvalScorecardRtQnaireUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Parent Hier. UUID",
+     "@sap.quickinfo": "Evaluation Scorecard Parent Hierarchy UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "MinimalScore": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Minimum Score",
+     "@sap.quickinfo": "Minimum Score Accepted",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "TargetScore": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Target Score",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "CalculatedScore": {
+     "type": "cds.Double",
+     "@sap.label": "Calculated Score",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "NumberOfResponses": {
+     "type": "cds.Integer",
+     "@sap.label": "Number of Responses",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "WeightingFactor": {
+     "type": "cds.Integer",
+     "@sap.label": "WeightingFactorVal",
+     "@sap.quickinfo": "Value of Weighting Factor",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SuplrEvalOrdinalNumber": {
+     "type": "cds.Integer",
+     "@sap.label": "Ordinal Number Value",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "to_SuplrEvalSccrdSection": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdSection",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_SuplrEvalScorecardRootQnaire": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalScorecardRootQnaire",
+     "keys": []
+    }
+   }
+  },
+  "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdSupplier": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Supplier",
+   "elements": {
+    "SuplrEvalScorecardPtyUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "@sap.label": "Eval Scrd Party UUID",
+     "@sap.quickinfo": "Evaluation Response Party UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "SuplrEvalScorecardUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Eval. Scorecard UUID",
+     "@sap.quickinfo": "Evaluation Scorecard UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "BusinessPartner": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Business Partner",
+     "@sap.quickinfo": "Business Partner Number",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    }
+   }
+  },
+  "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalScorecard": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Evaluation Scorecard",
+   "elements": {
+    "SuplrEvalScorecardUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "@sap.label": "Eval. Scorecard UUID",
+     "@sap.quickinfo": "Evaluation Scorecard UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "SupplierEvalScorecard": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Evaluation Scorecard",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SuplrEvalScorecardName": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Eval. Scorecard Name",
+     "@sap.quickinfo": "Name of a Supplier Evaluation Scorecard",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "to_SuplrEvalSccrdPurchaserResp": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdPurchaserResp",
+     "keys": []
+    },
+    "to_SuplrEvalScorecardRootQnaire": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalScorecardRootQnaire",
+     "keys": []
+    },
+    "to_Supplier": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdSupplier",
+     "keys": []
+    }
+   }
+  },
+  "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalScorecardRootQnaire": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Root Questionnaire",
+   "elements": {
+    "SuplrEvalScorecardQnaireUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "@sap.label": "Scorecard QNR UUID",
+     "@sap.quickinfo": "Evaluation Scorecard Questionnaire UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "SuplrEvalScorecardUUID": {
+     "type": "cds.UUID",
+     "@sap.label": "Eval. Scorecard UUID",
+     "@sap.quickinfo": "Evaluation Scorecard UUID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "MinimalScore": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Minimum Score",
+     "@sap.quickinfo": "Minimum Score Accepted",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "TargetScore": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Target Score",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "CalculatedScore": {
+     "type": "cds.Double",
+     "@sap.label": "Calculated Score",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "NumberOfResponses": {
+     "type": "cds.Integer",
+     "@sap.label": "Number of Responses",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "WeightingFactor": {
+     "type": "cds.Integer",
+     "@sap.label": "WeightingFactorVal",
+     "@sap.quickinfo": "Value of Weighting Factor",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "SuplrEvalOrdinalNumber": {
+     "type": "cds.Integer",
+     "@sap.label": "Ordinal Number Value",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false"
+    },
+    "to_SuplrEvalSccrdStrucQnaire": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalSccrdStrucQnaire",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_SupplierEvalScorecard": {
+     "type": "cds.Association",
+     "target": "API_SUPLR_EVAL_SCORECARD_SRV.A_SuplrEvalScorecard",
+     "keys": []
+    }
+   }
+  }
+ }
+}

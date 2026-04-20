@@ -1,0 +1,15 @@
+ID,locale,name
+1,en,Car
+1,ta,கார்
+1,hi,कार
+1,fr,Voiture
+
+2,en,Auto
+2,ta,தானியங்கி
+2,hi,ऑटो
+2,fr,Auto
+ 
+3,en,Bus
+3,ta,பேருந்து
+3,hi,बस
+3,fr,Bus

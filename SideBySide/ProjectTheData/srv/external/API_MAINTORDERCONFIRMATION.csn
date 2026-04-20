@@ -1,0 +1,302 @@
+{
+ "meta": {
+  "creator": "cds-dk 9.6.1"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "API_MAINTORDERCONFIRMATION": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true",
+   "@sap.message.scope.supported": "true",
+   "@sap.supported.formats": "atom json xlsx"
+  },
+  "API_MAINTORDERCONFIRMATION.MaintOrderConfirmation": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Maintenance Order Confirmation",
+   "elements": {
+    "MaintOrderConf": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Confirmation",
+     "@sap.quickinfo": "Completion confirmation number for the operation",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "MaintOrderConfCntrValue": {
+     "key": true,
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Counter",
+     "@sap.quickinfo": "Confirmation counter",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "MaintenanceOrder": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Order",
+     "@sap.quickinfo": "Order Number"
+    },
+    "MaintenanceOrderOperation": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Operation/Activity",
+     "@sap.quickinfo": "Operation/Activity Number"
+    },
+    "MaintenanceOrderSubOperation": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Operation/Activity",
+     "@sap.quickinfo": "Operation/Activity Number"
+    },
+    "PersonnelNumber": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Personnel number"
+    },
+    "ActualWorkQuantity": {
+     "type": "cds.Decimal",
+     "precision": 7,
+     "scale": 1,
+     "@sap.unit": "ActualWorkQuantityUnit",
+     "@sap.label": "Actual Work",
+     "@sap.quickinfo": "Actual work"
+    },
+    "ActualWorkQuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Unit for Work",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "ActualDuration": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 1,
+     "@sap.unit": "ActualDurationUnit",
+     "@sap.label": "Actual Duration",
+     "@sap.quickinfo": "Actual Duration for Confirmation"
+    },
+    "ActualDurationUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Unit for actual dur.",
+     "@sap.quickinfo": "Unit for actual duration",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "OperationConfirmedStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Start of Execution",
+     "@sap.quickinfo": "Confirmed Start Date of Execution"
+    },
+    "OperationConfirmedStartTime": {
+     "type": "cds.Time",
+     "@sap.label": "Actual Start (Time)",
+     "@sap.quickinfo": "Confirmed Time for 'Start Execution'"
+    },
+    "OperationConfirmedEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Finish Execution",
+     "@sap.quickinfo": "Confirmed Finish Date of Execution"
+    },
+    "OperationConfirmedEndTime": {
+     "type": "cds.Time",
+     "@sap.label": "Actual finish (time)",
+     "@sap.quickinfo": "Confirmed Time for 'Finish Execution'"
+    },
+    "IsFinalConfirmation": {
+     "type": "cds.Boolean",
+     "@sap.label": "Checkbox",
+     "@sap.heading": ""
+    },
+    "NoFurtherWorkQuantityIsExpd": {
+     "type": "cds.Boolean",
+     "@sap.label": "No Remaining Work",
+     "@sap.quickinfo": "Indicator: No Remaining Work Expected"
+    },
+    "RemainingWorkQuantity": {
+     "type": "cds.Decimal",
+     "precision": 7,
+     "scale": 1,
+     "@sap.unit": "RemainingWorkQuantityUnit",
+     "@sap.label": "Remaining Work"
+    },
+    "RemainingWorkQuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Unit Remaining Work",
+     "@sap.quickinfo": "Unit of Measure for Remaining Work",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "PostingDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Posting Date"
+    },
+    "ActivityType": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Activity Type",
+     "@sap.quickinfo": "Activity Type for Confirmation"
+    },
+    "OpenReservationsIsCleared": {
+     "type": "cds.Boolean",
+     "@sap.label": "Clear Open Reservs.",
+     "@sap.quickinfo": "Clear Open Reservations"
+    },
+    "ConfirmationText": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Confirmation text"
+    },
+    "EmployeeWageType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Wage type"
+    },
+    "EmployeeWageGroup": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Wage Group"
+    },
+    "VarianceReasonCode": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Variance Reason",
+     "@sap.quickinfo": "Reason for Variance"
+    },
+    "CapacityInternalID": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Capacity ID"
+    },
+    "NmbrOfMaintTechnicianCapSplits": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "@sap.label": "Split number"
+    },
+    "MaterialDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Material Document",
+     "@sap.quickinfo": "Number of Material Document"
+    },
+    "AccountingIndicatorCode": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Accounting Indicator"
+    },
+    "ActyConfFcstdEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Forecast finish date",
+     "@sap.quickinfo": "Forecast finish date of operation from confirmation"
+    },
+    "ActyConfFcstdEndTime": {
+     "type": "cds.Time",
+     "@sap.label": "Forecast End Time",
+     "@sap.quickinfo": "Forecast End Time of Operation from Confirmation"
+    },
+    "IsReversed": {
+     "type": "cds.Boolean",
+     "@sap.label": "Reversed",
+     "@sap.quickinfo": "Indicator: Document was reversed"
+    },
+    "IsReversal": {
+     "type": "cds.Boolean",
+     "@sap.label": "Checkbox",
+     "@sap.heading": ""
+    },
+    "CancldMaintOrderConfCntrValue": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Cancelled Confirm.",
+     "@sap.quickinfo": "Confirmation Counter of Cancelled Confirmation"
+    },
+    "to_LongText": {
+     "type": "cds.Composition",
+     "target": "API_MAINTORDERCONFIRMATION.LongText",
+     "keys": []
+    }
+   },
+   "actions": {
+    "CancelMaintOrderConfirmation": {
+     "kind": "action",
+     "params": {
+      "MaintOrderConfLongText": {
+       "type": "cds.String",
+       "@sap.label": "Long Text",
+       "@sap.quickinfo": "Long Text"
+      }
+     },
+     "returns": {
+      "type": "API_MAINTORDERCONFIRMATION.MaintOrderConfirmation"
+     }
+    }
+   }
+  },
+  "API_MAINTORDERCONFIRMATION.LongText": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Maintenance Order Confirmation Long Text",
+   "elements": {
+    "MaintOrderConf": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Confirmation",
+     "@sap.quickinfo": "Completion confirmation number for the operation",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "MaintOrderConfCntrValue": {
+     "key": true,
+     "type": "cds.String",
+     "length": 8,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Counter",
+     "@sap.quickinfo": "Confirmation counter",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "MaintOrderConfLongText": {
+     "type": "cds.String",
+     "@sap.label": "Long Text"
+    },
+    "to_MaintOrderConfirmation": {
+     "type": "cds.Association",
+     "target": "API_MAINTORDERCONFIRMATION.MaintOrderConfirmation",
+     "keys": []
+    }
+   }
+  }
+ }
+}

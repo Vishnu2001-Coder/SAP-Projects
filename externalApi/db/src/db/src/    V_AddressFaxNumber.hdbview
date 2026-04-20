@@ -1,0 +1,8 @@
+VIEW "V_AddressFaxNumber" AS
+SELECT
+  AddressID,
+  Person,
+  OrdinalNumber,
+  FaxCountry,
+  FaxNumber
+FROM SOME_REMOTE_TABLE;

@@ -1,0 +1,139 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student form</title>
+    </head> 
+    <body>
+        <h2>Create Student</h2>
+
+        <form id="studentForm">
+            <input type="text" id="empId" placeholder="Student ID" required><br><br>
+            <input type="text" id="firstName" placeholder="First Name" required><br><br>
+            <input type="tel" id="phn" placeholder="phn" required><br><br>
+            <button type="submit">Submit</button>
+        </form>
+      <button type="button" onclick="getAllStudents()">Get Students</button>
+    
+  
+         <input type="number" id="studentsid" name="studentsid" placeholder="ENTER THE ID">
+         <button type="button" onclick="getIdStudents()">Get ID Students</button>
+    
+      
+
+
+
+
+<br><br>
+<div id="studentList"></div>
+
+        <script>
+            document.getElementById("studentForm").addEventListener("submit", async function(e) {
+                e.preventDefault();                
+                const data = {
+                    id: document.getElementById("empId").value,
+                    name: document.getElementById("firstName").value,
+                    phn: document.getElementById("phn").value
+                };
+
+                // console.log("Sending:", data);
+
+                const response = await fetch("/odata/v4/myapi/Students", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+                  const resp= await response.json();      //accessing response
+                  console.log(resp);    
+
+                if (response.ok) {
+                    alert("Employee Created Successfully");
+                } else {
+                    alert("Error Creating Employee");
+                }
+
+                console.log(response.ok);
+                
+            });
+
+
+   //GET         
+   let getAllStudents= async function() {
+    const response = await fetch("/odata/v4/myapi/Students");
+
+    if (!response.ok) {
+        alert("Error fetching students");
+        return;
+    }   
+
+    const result = await response.json();   
+
+    console.log(result);              //not return the plain array (odata and value) {[{},{},{}]}
+    console.log(result.value);        // only return the value that is [{},{},{}]
+    
+
+    const students = result.value;
+
+    let html = "<h3>Student List</h3>";
+
+    students.forEach(s => {
+        html += `
+            <p>
+                ID: ${s.id} <br>
+                Name: ${s.name} <br>
+                Phone: ${s.phn}
+            </p>
+            <hr>
+        `;
+    });
+
+    document.getElementById("studentList").innerHTML = html;
+}
+   //GetID
+
+   const getIdStudents=function async(){
+      let id=studentsid.value;
+      let getIdRes= await ("/odata/v4/myapi/Students(${id})");
+      let response= getIdRes.json();
+      
+      response.forEach(element => {
+          element.id;
+          element.name;
+          element.phn
+      });
+
+      console.log(response);
+      
+   }
+ 
+
+        </script>
+    </body>
+    </html>
+
+    <!-- 
+    Note
+    1.in express when submit the form, take the json and get into the endpoint request via browser.
+
+    2. In cap when sumit the form , its get enter into the client side js and acces the value using DOM and send response (fetch(endpoint,{method:"",header:"",body:"json.stringfy"}))
+      
+    Error:when you acces in client side ->same feildname as domain model feild name.
+          EndAPI path must be correct.
+          Console-> In cilent side see browser console
+          500-> Internal error use postman , see unique value.
+
+
+     3.🎓 Final Understanding GET
+        Variable	      What it contains
+        response	      Raw HTTP response
+        result	          Full OData object
+        result.value	  Actual array of records     
+
+     4.What is response.ok  
+       true  → if HTTP status is 200–299
+       false → if HTTP status is 400, 404, 500, etc.
+
+    -->

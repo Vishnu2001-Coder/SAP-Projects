@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geo Info App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Geo Information</h1>
+
+    <!-- CITY -->
+    <div>
+        <h3>Search by City</h3>
+        <input type="text" id="city" placeholder="Enter City">
+        <button onclick="getCity()">Search</button>
+        <pre id="cityResult"></pre>
+    </div>
+
+    <!-- PINCODE -->
+    <div>
+        <h3>Search by Pincode</h3>
+        <input type="text" id="pincode" placeholder="Enter Pincode">
+        <button onclick="getPincode()">Search</button>
+        <pre id="pincodeResult"></pre>
+    </div>
+
+    <!-- STATE -->
+    <div>
+        <h3>Search by State</h3>
+        <input type="text" id="state" placeholder="Enter State">
+        <button onclick="getState()">Search</button>
+        <pre id="stateResult"></pre>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

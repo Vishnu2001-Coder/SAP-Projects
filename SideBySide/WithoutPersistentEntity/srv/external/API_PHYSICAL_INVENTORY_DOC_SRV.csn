@@ -1,0 +1,713 @@
+{
+ "meta": {
+  "creator": "cds-dk 9.6.1"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "API_PHYSICAL_INVENTORY_DOC_SRV": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true",
+   "@sap.message.scope.supported": "true",
+   "@sap.supported.formats": "atom json xlsx"
+  },
+  "API_PHYSICAL_INVENTORY_DOC_SRV.A_PhysInventoryDocHeader": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Document Header",
+   "elements": {
+    "FiscalYear": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Fiscal Year",
+     "notNull": true
+    },
+    "PhysicalInventoryDocument": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Physical Inventory Document",
+     "notNull": true
+    },
+    "InventoryTransactionType": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Inventory Transaction Type"
+    },
+    "Plant": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Plant"
+    },
+    "StorageLocation": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Storage Location"
+    },
+    "InventorySpecialStockType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Special Stock",
+     "@sap.quickinfo": "Special Stock Indicator"
+    },
+    "DocumentDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Document Date",
+     "@sap.quickinfo": "Document Date in Document"
+    },
+    "PhysInventoryPlannedCountDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Planned Count Date",
+     "@sap.quickinfo": "Planned Date of Inventory Count"
+    },
+    "PhysicalInventoryLastCountDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Count Date",
+     "@sap.quickinfo": "Date of Last Count"
+    },
+    "PostingDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Posting Date",
+     "@sap.quickinfo": "Posting Date in the Document"
+    },
+    "FiscalPeriod": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Posting Period"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Created By",
+     "@sap.quickinfo": "Physical Inventory Created by User"
+    },
+    "PostingIsBlockedForPhysInvtry": {
+     "type": "cds.Boolean",
+     "@sap.label": "Posting Block",
+     "@sap.quickinfo": "Posting Block Due to Physical Inventory"
+    },
+    "PhysicalInventoryCountStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Count Status"
+    },
+    "PhysInvtryAdjustmentPostingSts": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Adjustment Status",
+     "@sap.quickinfo": "Status of Adjustment Posting (Inventory Differences)"
+    },
+    "PhysInvtryDeletionStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Deletion Status",
+     "@sap.quickinfo": "Status of Deletion"
+    },
+    "PhysInvtryDocHasQtySnapshot": {
+     "type": "cds.Boolean",
+     "@sap.label": "Book Inventory Freeze"
+    },
+    "PhysicalInventoryGroupType": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Grouping Type",
+     "@sap.quickinfo": "Type of Grouping Criterion"
+    },
+    "PhysicalInventoryGroup": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Grouping Criterion",
+     "@sap.quickinfo": "Grouping Criterion of Physical Inventory Document Item"
+    },
+    "PhysicalInventoryNumber": {
+     "type": "cds.String",
+     "length": 16,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Physical Inventory Number"
+    },
+    "PhysInventoryReferenceNumber": {
+     "type": "cds.String",
+     "length": 16,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Physical Inventory Reference"
+    },
+    "PhysicalInventoryDocumentDesc": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "PI Doc Description",
+     "@sap.quickinfo": "Description of Physical Inventory Document"
+    },
+    "PhysicalInventoryType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Physical Inventory Type"
+    },
+    "LastChangeDateTime": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7,
+     "@sap.label": "Last Change",
+     "@sap.quickinfo": "Last Change Timestamp"
+    },
+    "to_PhysicalInventoryDocumentItem": {
+     "type": "cds.Composition",
+     "target": "API_PHYSICAL_INVENTORY_DOC_SRV.A_PhysInventoryDocItem",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   },
+   "actions": {
+    "PostDifferences": {
+     "kind": "action",
+     "params": {
+      "PostingThresholdValue": {
+       "type": "cds.Decimal",
+       "precision": 14,
+       "scale": 3,
+       "@sap.label": "Threshold Value"
+      },
+      "PostingDate": {
+       "type": "cds.DateTime",
+       "@odata.Type": "Edm.DateTime",
+       "@sap.label": "Posting Date"
+      }
+     },
+     "returns": {
+      "type": "API_PHYSICAL_INVENTORY_DOC_SRV.A_PhysInventoryDocHeader"
+     }
+    },
+    "InitiateRecount": {
+     "kind": "action",
+     "params": {
+      "PhysInventoryPlannedCountDate": {
+       "type": "cds.DateTime",
+       "@odata.Type": "Edm.DateTime",
+       "@sap.label": "Planned Count Date"
+      },
+      "DocumentDate": {
+       "type": "cds.DateTime",
+       "@odata.Type": "Edm.DateTime",
+       "@sap.label": "Document Date"
+      },
+      "PhysicalInventoryNumber": {
+       "type": "cds.String",
+       "length": 16,
+       "@sap.label": "Phys. inventory no."
+      },
+      "PhysInventoryReferenceNumber": {
+       "type": "cds.String",
+       "length": 16,
+       "@sap.label": "Phys. inventory ref."
+      },
+      "PhysicalInventoryDocumentDesc": {
+       "type": "cds.String",
+       "length": 40,
+       "@sap.label": "PI Doc Description"
+      },
+      "PostingThresholdValue": {
+       "type": "cds.Decimal",
+       "precision": 14,
+       "scale": 3,
+       "@sap.label": "Threshold Value"
+      },
+      "PhysInvtryDocHasQtySnapshot": {
+       "type": "cds.Boolean",
+       "@sap.label": "Freeze Book Invtry"
+      },
+      "PostingIsBlockedForPhysInvtry": {
+       "type": "cds.Boolean",
+       "@sap.label": "Phys. Inv. Block"
+      }
+     },
+     "returns": {
+      "type": "API_PHYSICAL_INVENTORY_DOC_SRV.A_PhysInventoryDocHeader"
+     }
+    }
+   }
+  },
+  "API_PHYSICAL_INVENTORY_DOC_SRV.A_PhysInventoryDocItem": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Document Items",
+   "elements": {
+    "FiscalYear": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Fiscal Year",
+     "notNull": true
+    },
+    "PhysicalInventoryDocument": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Physical Inventory Document",
+     "notNull": true
+    },
+    "PhysicalInventoryDocumentItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Physical Inventory Document Item",
+     "@sap.quickinfo": "Physical Inventory Item Number",
+     "notNull": true
+    },
+    "Plant": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Plant"
+    },
+    "StorageLocation": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Storage Location"
+    },
+    "Material": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Material",
+     "@sap.quickinfo": "Material Number"
+    },
+    "Batch": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Batch",
+     "@sap.quickinfo": "Batch Number"
+    },
+    "InventorySpecialStockType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Special Stock Type"
+    },
+    "PhysicalInventoryStockType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Stock Type",
+     "@sap.quickinfo": "Stock Type (Physical Inventory)"
+    },
+    "SalesOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sales Order",
+     "@sap.quickinfo": "Sales Order Number"
+    },
+    "SalesOrderItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Sales Order Item",
+     "@sap.quickinfo": "Item Number in Sales Order"
+    },
+    "Supplier": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Supplier",
+     "@sap.quickinfo": "Account Number of Supplier"
+    },
+    "Customer": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Customer",
+     "@sap.quickinfo": "Account Number of Customer"
+    },
+    "WBSElement": {
+     "type": "cds.String",
+     "length": 24,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "WBS Element",
+     "@sap.quickinfo": "Work Breakdown Structure Element (WBS Element)"
+    },
+    "LastChangeUser": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Changed By"
+    },
+    "LastChangeDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Changed On",
+     "@sap.quickinfo": "Last Changed On"
+    },
+    "CountedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Counted By"
+    },
+    "PhysicalInventoryLastCountDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Count Date",
+     "@sap.quickinfo": "Date of Last Count"
+    },
+    "AdjustmentPostingMadeByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Adjustment Posting Made By"
+    },
+    "PostingDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date",
+     "@sap.label": "Posting Date",
+     "@sap.quickinfo": "Posting Date in the Document"
+    },
+    "PhysicalInventoryItemIsCounted": {
+     "type": "cds.Boolean",
+     "@sap.label": "Is Counted",
+     "@sap.quickinfo": "Item is Counted"
+    },
+    "PhysInvtryDifferenceIsPosted": {
+     "type": "cds.Boolean",
+     "@sap.label": "Is Difference Posted",
+     "@sap.quickinfo": "Difference of Item is Posted"
+    },
+    "PhysInvtryItemIsRecounted": {
+     "type": "cds.Boolean",
+     "@sap.label": "Is Recounted",
+     "@sap.quickinfo": "Item is Recounted"
+    },
+    "PhysInvtryItemIsDeleted": {
+     "type": "cds.Boolean",
+     "@sap.label": "Is Deleted",
+     "@sap.quickinfo": "Item is Deleted"
+    },
+    "IsHandledInAltvUnitOfMsr": {
+     "type": "cds.Boolean",
+     "@sap.label": "Without Unit of Measure Proposal"
+    },
+    "CycleCountType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Cycle Count Type"
+    },
+    "IsValueOnlyMaterial": {
+     "type": "cds.Boolean",
+     "@sap.label": "Is Value-Only Material"
+    },
+    "PhysInventoryReferenceNumber": {
+     "type": "cds.String",
+     "length": 16,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Physical Inventory Reference"
+    },
+    "MaterialDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Material Document",
+     "@sap.quickinfo": "Number of Material Document"
+    },
+    "MaterialDocumentYear": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Material Document Year"
+    },
+    "MaterialDocumentItem": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Material Document Item"
+    },
+    "PhysInvtryRecountDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Recount Document",
+     "@sap.quickinfo": "Number of Recount Document"
+    },
+    "PhysicalInventoryItemIsZero": {
+     "type": "cds.Boolean",
+     "@sap.label": "Zero Counted",
+     "@sap.quickinfo": "Is Zero Count"
+    },
+    "ReasonForPhysInvtryDifference": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Difference Reason"
+    },
+    "MaterialBaseUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Base Unit of Measure",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "BookQtyBfrCountInMatlBaseUnit": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.unit": "MaterialBaseUnit",
+     "@sap.label": "Book Quantity",
+     "@sap.quickinfo": "Book Quantity Immediately Prior to Count"
+    },
+    "Quantity": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.unit": "MaterialBaseUnit",
+     "@sap.label": "Counted Quantity"
+    },
+    "UnitOfEntry": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Entry Unit",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "QuantityInUnitOfEntry": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.unit": "UnitOfEntry",
+     "@sap.label": "Counted Quantity in Entry Unit"
+    },
+    "Currency": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Company Code Currency",
+     "@sap.semantics": "currency-code"
+    },
+    "DifferenceAmountInCoCodeCrcy": {
+     "type": "cds.Decimal",
+     "precision": 14,
+     "scale": 3,
+     "@sap.unit": "Currency",
+     "@sap.label": "Difference Value",
+     "@sap.quickinfo": "Value of Difference"
+    },
+    "EnteredSlsAmtInCoCodeCrcy": {
+     "type": "cds.Decimal",
+     "precision": 14,
+     "scale": 3,
+     "@sap.unit": "Currency",
+     "@sap.label": "Sales Price Counted Value",
+     "@sap.quickinfo": "Externally Entered Value Based on Sales Price"
+    },
+    "SlsPriceAmountInCoCodeCrcy": {
+     "type": "cds.Decimal",
+     "precision": 14,
+     "scale": 3,
+     "@sap.unit": "Currency",
+     "@sap.label": "Sales Price Book Value"
+    },
+    "PhysInvtryCtAmtInCoCodeCrcy": {
+     "type": "cds.Decimal",
+     "precision": 14,
+     "scale": 3,
+     "@sap.unit": "Currency",
+     "@sap.label": "Counted Quantity Value"
+    },
+    "BookQtyAmountInCoCodeCrcy": {
+     "type": "cds.Decimal",
+     "precision": 14,
+     "scale": 3,
+     "@sap.unit": "Currency",
+     "@sap.label": "Book Value"
+    },
+    "LastChangeDateTime": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7,
+     "@sap.label": "Last Change",
+     "@sap.quickinfo": "Last Change Timestamp"
+    },
+    "to_PhysicalInventoryDocument": {
+     "type": "cds.Association",
+     "target": "API_PHYSICAL_INVENTORY_DOC_SRV.A_PhysInventoryDocHeader",
+     "keys": []
+    },
+    "to_SerialNumbers": {
+     "type": "cds.Association",
+     "target": "API_PHYSICAL_INVENTORY_DOC_SRV.A_SerialNumberPhysInventoryDoc",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   },
+   "actions": {
+    "PostDifferencesOnItem": {
+     "kind": "action",
+     "params": {
+      "Material": {
+       "type": "cds.String",
+       "length": 40,
+       "@sap.label": "Material"
+      },
+      "Batch": {
+       "type": "cds.String",
+       "length": 10,
+       "@sap.label": "Batch"
+      },
+      "ReasonForPhysInvtryDifference": {
+       "type": "cds.String",
+       "length": 4,
+       "@sap.label": "Reason f. Diff."
+      },
+      "PostingDate": {
+       "type": "cds.DateTime",
+       "@odata.Type": "Edm.DateTime",
+       "@sap.label": "Posting Date"
+      }
+     },
+     "returns": {
+      "type": "API_PHYSICAL_INVENTORY_DOC_SRV.A_PhysInventoryDocItem"
+     }
+    },
+    "InitiateRecountOnItem": {
+     "kind": "action",
+     "params": {
+      "PhysInventoryPlannedCountDate": {
+       "type": "cds.DateTime",
+       "@odata.Type": "Edm.DateTime",
+       "@sap.label": "Planned Count Date"
+      },
+      "DocumentDate": {
+       "type": "cds.DateTime",
+       "@odata.Type": "Edm.DateTime",
+       "@sap.label": "Document Date"
+      },
+      "PhysicalInventoryNumber": {
+       "type": "cds.String",
+       "length": 16,
+       "@sap.label": "Phys. inventory no."
+      },
+      "PhysInventoryReferenceNumber": {
+       "type": "cds.String",
+       "length": 16,
+       "@sap.label": "Phys. inventory ref."
+      },
+      "PhysicalInventoryDocumentDesc": {
+       "type": "cds.String",
+       "length": 40,
+       "@sap.label": "PI Doc Description"
+      },
+      "PhysInvtryDocHasQtySnapshot": {
+       "type": "cds.Boolean",
+       "@sap.label": "Freeze Book Invtry"
+      },
+      "PostingIsBlockedForPhysInvtry": {
+       "type": "cds.Boolean",
+       "@sap.label": "Phys. Inv. Block"
+      }
+     },
+     "returns": {
+      "type": "API_PHYSICAL_INVENTORY_DOC_SRV.A_PhysInventoryDocItem"
+     }
+    }
+   }
+  },
+  "API_PHYSICAL_INVENTORY_DOC_SRV.A_SerialNumberPhysInventoryDoc": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Document Serial Number",
+   "elements": {
+    "Equipment": {
+     "key": true,
+     "type": "cds.String",
+     "length": 18,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Equipment",
+     "@sap.quickinfo": "Equipment Number",
+     "notNull": true
+    },
+    "FiscalYear": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Fiscal Year",
+     "notNull": true
+    },
+    "PhysicalInventoryDocument": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Phys. Inventory Doc.",
+     "@sap.quickinfo": "Physical Inventory Document",
+     "notNull": true
+    },
+    "PhysicalInventoryDocumentItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item",
+     "@sap.quickinfo": "Line Number",
+     "notNull": true
+    },
+    "SerialNumberPhysicalInvtryType": {
+     "key": true,
+     "type": "cds.String",
+     "length": 1,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Serial Number Physical Inventory Type",
+     "notNull": true
+    },
+    "Material": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Material",
+     "@sap.quickinfo": "Material Number"
+    },
+    "SerialNumber": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Serial Number"
+    }
+   }
+  }
+ }
+}

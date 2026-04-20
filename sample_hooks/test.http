@@ -1,0 +1,8 @@
+POST   http://localhost:4004/odata/v4/myapi/Customer
+ Content-Type: application/json
+ 
+{
+  "id": "1",
+  "name": "Vishnu",
+  "phn": "999786566"
+}
