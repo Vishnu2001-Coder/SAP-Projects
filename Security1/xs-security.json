@@ -1,0 +1,33 @@
+{
+  "xsappname":"sample1_auth",
+  "tenant-mode":"dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Employee",
+      "description": "Employee"
+    },
+    {
+      "name": "$XSAPPNAME.Admins",
+      "description": "Admins"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Employee",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.Employee"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "Admins",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.Admins"
+      ],
+      "attribute-references": []
+    }
+  ]
+}
