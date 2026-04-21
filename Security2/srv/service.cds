@@ -1,5 +1,6 @@
 using {  sample.db as db} from '../db/schema';
 
+@requires: ['Users', 'Admins']
 service MyService {
 
     @restrict:[{grant:['READ'],to :'Users'},

@@ -74,18 +74,14 @@ resources:
           redirect-uris:
             - https://*~{app-api/app-uri}/**
         role-collections:
-          - name: 'user (Security2 ${org}-${space})'
-            description: 'generated'
-            role-template-references:
-              - '$XSAPPNAME.user'
-          - name: 'Admins (Security2 ${org}-${space})'
-            description: 'generated'
-            role-template-references:
-              - '$XSAPPNAME.Admins'
           - name: 'Users (Security2 ${org}-${space})'
             description: 'generated'
             role-template-references:
               - '$XSAPPNAME.Users'
+          - name: 'Admins (Security2 ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.Admins'
     requires:
       - name: app-api
   - name: Security2-db
