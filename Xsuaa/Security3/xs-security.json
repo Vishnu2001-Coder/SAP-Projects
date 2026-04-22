@@ -1,0 +1,40 @@
+{
+ "xsappname": "Security3-auth",
+ "tenant-mode": "dedicated",
+ "scopes": [
+  {
+   "name": "$XSAPPNAME.Users",
+   "description": "Users"
+  },
+  {
+   "name": "$XSAPPNAME.Admins",
+   "description": "Admins"
+  }
+ ],
+ "attributes": [],
+ "role-templates": [
+  {
+   "name": "Users",
+   "description": "generated",
+   "scope-references": [
+    "$XSAPPNAME.Users"
+   ],
+   "attribute-references": []
+  },
+  {
+   "name": "Admins",
+   "description": "generated",
+   "scope-references": [
+    "$XSAPPNAME.Admins"
+   ],
+   "attribute-references": []
+  }
+ ],
+ "oauth2-configuration": {
+  "redirect-uris": [
+   "http://localhost:5000/**",
+   "https://*.cfapps.ap21.hana.ondemand.com/**",
+   "https://*.applicationstudio.cloud.sap/**"
+  ]
+ }
+}
