@@ -94,3 +94,9 @@ entity vehiclesView as select from Vehicles { vehicleId };
 //     sum(O.amount) as totalSales,
 //     count(O.customer_ID) as OrderCount
 // } group by O.customer_ID;                !!! group the records -> count , sum , min, max, avg
+
+
+
+entity aggre as select from Vehicles {
+   
+}
