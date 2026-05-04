@@ -9,8 +9,8 @@ entity Books{
 }
 
 entity Person{
-   key id:String;
-    P_name:String;
+   key id:String ;
+    P_name:String ;
     P_age:String;
 }
 
