@@ -1,0 +1,25 @@
+{
+  "name": "khibana",
+  "version": "1.0.0",
+  "dependencies": {
+    "@cap-js/hana": "^2",
+    "@sap/cds": "^9"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "cds-plugin-ui5": "^0.13.0"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-gui": "cds watch --open ns.gui/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-fiori": "cds watch --open ns.fiori/index.html?sap-ui-xx-viewCache=false --livereload false"
+  },
+  "private": true,
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/gui",
+    "app/fiori"
+  ]
+}
