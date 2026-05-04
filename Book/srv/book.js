@@ -9,7 +9,8 @@ module.exports=cds.service.impl(async function () {
           console.log("hi");
           const data=req.data;
           console.log(data);
-          const res= await cds.run(next);// INSERT.into(Books).entries(data)//
+     //     const res= await cds.run(next);// INSERT.into(Books).entries(data)//
+          const res = await INSERT.into(Books).entries(data);
         }        
        catch(err)
          {
