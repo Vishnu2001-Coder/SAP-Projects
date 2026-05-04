@@ -11,13 +11,15 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-fiori": "cds watch --open fiori/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-fiori": "cds watch --open fiori/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-project1": "cds watch --open ns.project1/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "private": true,
   "workspaces": [
     "app/*"
   ],
   "sapux": [
-    "app/fiori"
+    "app/fiori",
+    "app/project1"
   ]
 }
