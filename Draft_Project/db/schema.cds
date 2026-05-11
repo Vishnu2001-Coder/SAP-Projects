@@ -22,7 +22,7 @@ If the entity is empty, CAP returns an empty array without draft metadata.”
       
     URL:
 POST /odata/v4/catalog/Orders(ID=ddc01212-4021-4b01-99e2-13defd58f89d,IsActiveEntity=true)/draftEdit ?
-  RESPONSE:
+  RESPONSE: 
   {
 	"@odata.context": "../$metadata#Orders/$entity",
 	"ID": "dd9abe49-1f87-4f3c-839c-b1a3751b8bd4",

@@ -1,0 +1,6 @@
+ID,firstName,lastName,email,phone,password
+CUS1001,Aarav,Sharma,aarav@example.com,9876543210,pass123
+CUS1002,Diya,Reddy,diya@example.com,9876543211,pass123
+CUS1003,Vikram,Iyer,vikram@example.com,9876543212,pass123
+CUS1004,Meera,Nair,meera@example.com,9876543213,pass123
+CUS1005,Rohan,Kapoor,rohan@example.com,9876543214,pass123

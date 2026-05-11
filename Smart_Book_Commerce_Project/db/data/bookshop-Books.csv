@@ -1,0 +1,6 @@
+ID,title,isbn,description,language,publishDate,price,stock,pages,imageUrl,averageRating,category_ID,author_ID,publisher_ID
+BK1001,Clean Code,ISBN1001,Programming best practices,English,2023-01-10,799.00,20,450,https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg,4.8,CAT1001,AUT1001,PUB1001
+BK1002,Effective Java,ISBN1002,Advanced Java concepts,English,2022-05-15,699.00,15,400,https://covers.openlibrary.org/b/isbn/9780134685991-L.jpg,4.7,CAT1001,AUT1002,PUB1002
+BK1003,Atomic Habits,ISBN1003,Self improvement book,English,2021-03-20,599.00,30,320,https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg,4.9,CAT1005,AUT1003,PUB1005
+BK1004,Sapiens,ISBN1004,History of humankind,English,2020-07-11,899.00,12,500,https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg,4.6,CAT1003,AUT1004,PUB1004
+BK1005,The Alchemist,ISBN1005,Inspirational novel,English,2019-11-05,499.00,25,280,https://covers.openlibrary.org/b/isbn/9780061122415-L.jpg,4.5,CAT1002,AUT1005,PUB1005

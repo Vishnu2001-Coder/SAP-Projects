@@ -1,0 +1,4 @@
+ID,orderNumber,orderDate,totalAmount,status,paymentStatus,deliveryStatus,customer_ID
+ORD1001,ORDNO1001,2026-05-01T10:00:00,1498.00,Confirmed,Paid,Shipped,CUS1001
+ORD1002,ORDNO1002,2026-05-02T11:15:00,599.00,Delivered,Paid,Delivered,CUS1002
+ORD1003,ORDNO1003,2026-05-03T09:20:00,899.00,Pending,Pending,Pending,CUS1003

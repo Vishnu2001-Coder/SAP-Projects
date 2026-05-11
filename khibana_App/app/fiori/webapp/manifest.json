@@ -87,7 +87,6 @@
           "defaultTwoColumnLayoutType": "TwoColumnsBeginExpanded",
           "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
         },
-        
         "routerClass": "sap.f.routing.Router"
       },
       "routes": [
@@ -105,21 +104,10 @@
             "BooksList",
             "BooksObjectPage"
           ]
-        },
-        {
-          "pattern": "Person",
-          "name": "PersonList",
-          "target": [
-            "PersonList"
-          ]
-        },
-        {
-          "pattern": "Person({key}):?query:",
+        }, {
+          "pattern": "Books({key})/Person({key2}):?query:",
           "name": "PersonObjectPage",
-          "target": [
-            "PersonList",
-            "PersonObjectPage"
-          ]
+          "target": "PersonObjectPage"
         }
       ],
       "targets": {
@@ -151,32 +139,6 @@
           "controlAggregation": "beginColumnPages",
           "contextPattern": ""
         },
-        "PersonList": {
-          "type": "Component",
-          "id": "PersonList",
-          "name": "sap.fe.templates.ListReport",
-          "controlAggregation": "beginColumnPages",
-          "options": {
-            "settings": {
-              "contextPath": "/Person",
-              "variantManagement": "Page",
-              "navigation": {
-                "Person": {
-                  "detail": {
-                    "route": "PersonObjectPage"
-                  }
-                }
-              },
-              "controlConfiguration": {
-                "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": {
-                    "type": "ResponsiveTable"
-                  }
-                }
-              }
-            }
-          }
-        },
         "BooksObjectPage": {
           "type": "Component",
           "id": "BooksObjectPage",
@@ -189,18 +151,6 @@
           },
           "controlAggregation": "midColumnPages",
           "contextPattern": "/Books({key})"
-        },
-        "PersonObjectPage": {
-          "type": "Component",
-          "id": "PersonObjectPage",
-          "name": "sap.fe.templates.ObjectPage",
-          "controlAggregation": "midColumnPages",
-          "options": {
-            "settings": {
-              "editableHeaderContent": false,
-              "contextPath": "/Person"
-            }
-          }
         }
       }
     },

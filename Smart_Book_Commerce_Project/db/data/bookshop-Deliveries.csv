@@ -1,0 +1,4 @@
+ID,order_ID,deliveryPartner,trackingNumber,deliveryStatus
+DEL1001,ORD1001,BlueDart,TRK1001,Shipped
+DEL1002,ORD1002,DTDC,TRK1002,Delivered
+DEL1003,ORD1003,Delhivery,TRK1003,Pending

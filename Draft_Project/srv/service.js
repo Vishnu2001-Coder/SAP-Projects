@@ -12,7 +12,7 @@ module.exports=cds.service.impl(async function(){
            const data=req.data;
            console.log(data);
 
-           const res=await INSERT.into('Orders').entries(data);
+           const res=await INSERT.into('Orders').entries(data);                  //Storing in activeEntity
          //  const response= await INSERT.into(entityName).entries(data);
            
           

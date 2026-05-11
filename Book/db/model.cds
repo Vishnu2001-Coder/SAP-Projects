@@ -5,9 +5,17 @@ entity Books{
     author_name  :String not null;
     book_name    :String;
     stock        :String;
-    level        :code  @assert.range:['H','M','L'];
+   // level        :code  @assert.range:['H','M','L'];
+    line :Association to Line;
    
 }
+
+entity Line{
+   key id:String;
+   name:String;
+}
+  
+
 
 
  type code : String enum {

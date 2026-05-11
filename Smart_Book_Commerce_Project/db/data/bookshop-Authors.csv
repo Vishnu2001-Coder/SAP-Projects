@@ -1,0 +1,6 @@
+ID,name,biography,email,imageUrl
+AUT1001,Robert Martin,Clean Code author,robert@example.com,https://m.media-amazon.com/images/I/41xShlnTZTL.jpg
+AUT1002,Joshua Bloch,Java expert,joshua@example.com,https://covers.openlibrary.org/b/isbn/9780134685991-L.jpg
+AUT1003,James Clear,Atomic Habits writer,james@example.com,https://m.media-amazon.com/images/I/91bYsX41DVL.jpg
+AUT1004,Yuval Harari,Historian and author,yuval@example.com,https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg
+AUT1005,Paulo Coelho,Famous novelist,paulo@example.com,https://covers.openlibrary.org/b/isbn/9780061122415-L.jpg

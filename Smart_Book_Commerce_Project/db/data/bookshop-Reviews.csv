@@ -1,0 +1,6 @@
+ID,reviewText,rating,reviewDate,customer_ID,book_ID
+RVS1001,Excellent coding book,5,2026-05-01T12:00:00,CUS1001,BK1001
+RVS1002,Very useful for Java developers,5,2026-05-02T13:00:00,CUS1002,BK1002
+RVS1003,Life changing book,4,2026-05-03T15:00:00,CUS1003,BK1003
+RVS1004,Amazing historical insights,5,2026-05-04T16:00:00,CUS1004,BK1004
+RVS1005,Inspirational story,4,2026-05-05T17:00:00,CUS1005,BK1005

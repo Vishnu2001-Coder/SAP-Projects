@@ -1,0 +1,4 @@
+ID,code,description,discountPercent,isActive
+CUP1001,NEWUSER10,New user discount,10.00,true
+CUP1002,SUMMER15,Summer special offer,15.00,true
+CUP1003,BOOK20,Book fair discount,20.00,false
