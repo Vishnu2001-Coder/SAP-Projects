@@ -132,7 +132,6 @@ entity OrderItems : managed {
     order              : Association to Orders;
 
     book               : Association to Books;
-
     quantity           : Integer;
 
     unitPrice          : Decimal(10,2);
