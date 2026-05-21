@@ -1,6 +1,6 @@
 using {  sample.db as db} from '../db/schema';
-
-@requires:['authenticated-user'] 
+authenticated-user
+@requires:[''] 
 service MyService {
 
 

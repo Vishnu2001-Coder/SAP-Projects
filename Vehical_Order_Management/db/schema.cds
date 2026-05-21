@@ -30,7 +30,7 @@ entity Delivery {
 entity Vehicles {
     key vehicleId  : String;
         modelName  : String not null;
-        cur_price  : Decimal(10, 2) @mandatory;
+        cur_price  : Decimal(10, 2) @mandatory; 
         old_price  : Decimal(10, 2) default 0;
 
         dealer     : Association to Dealers;

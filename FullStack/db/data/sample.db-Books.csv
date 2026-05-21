@@ -1,0 +1,6 @@
+id,author_name,book_name,Date,stock_stocks
+B101,Robert,Love The Partner,2026-05-01T10:30:00Z,Available
+B102,William,Life Journey,2026-05-02T09:15:00Z,OutOfStock
+B103,John,Cloud Computing,2026-05-03T11:45:00Z,DisContinued
+B104,David,Node JS Basics,2026-05-04T14:20:00Z,Available
+B105,Michael,SAP CAP Guide,2026-05-05T16:10:00Z,OutOfStock
