@@ -21,6 +21,7 @@ type Category      : String enum { //!!!
 
 type OrderStatus   : String enum {
     Draft;
+    WaitingForConfirmation;
     Confirmed;
     Shipped;
     Delivered;
@@ -99,7 +100,7 @@ entity Products : managed {
 
         stockQty    : Integer      @readonly;
 
-        rating      : Decimal(2, 1);       // 4.5 ⭐
+        rating      : Decimal(2, 1);       // 4.5 
 
         imageUrl    : String(500);  
 }
@@ -131,11 +132,11 @@ entity SalesOrders : managed {
 
         orderDate       : Date default null @readonly;
 
-        trackingNumber  : String(50) default null @readonly;
+        trackingNumber  : String(50) default 'not confirm order' @readonly;
 
         deliveryDate    : Date default null @readonly;
 
-        statusCriticality : Integer; 
+        statusCriticality : Integer default 5; 
 
         invoice         : Association to one Invoices
                               on invoice.salesOrder = $self;

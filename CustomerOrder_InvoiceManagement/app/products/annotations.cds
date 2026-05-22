@@ -42,10 +42,10 @@ annotate service.Products with {
                 },
             ],
         },
-        Common.ValueListWithFixedValues: true, // ← popup 🔍
+        Common.ValueListWithFixedValues: true, 
     );
 
-    // ✅ rating → FixedValues FALSE (popup with search)
+   
     rating @(
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
@@ -65,7 +65,7 @@ annotate service.Products with {
         Common.ValueListWithFixedValues: false, // ← popup 🔍
     );
 
-    // ✅ unitPrice → FixedValues FALSE
+    
     unitPrice @(
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
@@ -89,7 +89,7 @@ annotate service.Products with {
         Common.ValueListWithFixedValues: false, // ← popup 🔍
     );
 
-    // ✅ stockQty → FixedValues FALSE
+    
     stockQty @(
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
@@ -177,9 +177,7 @@ annotate service.Products with @(
         },
 
     ],
-    // ================================
-    // HEADER INFO (top of object page)
-    // ================================
+   
     UI.HeaderInfo              : {
         TypeName      : 'Product',
         TypeNamePlural: 'Products',
@@ -194,9 +192,7 @@ annotate service.Products with @(
         ImageUrl      : imageUrl, // header image
     },
 
-    // ================================
-    // FACETS (tabs in object page)
-    // ================================
+
     UI.Facets                  : [
         {
             $Type : 'UI.ReferenceFacet',
@@ -218,9 +214,6 @@ annotate service.Products with @(
         },
     ],
 
-    // ================================
-    // FIELD GROUPS
-    // ================================
 
     // Facet 1 — Product Information
     UI.FieldGroup #ProductInfo : {
@@ -273,14 +266,13 @@ annotate service.Products with @(
         $Type: 'UI.FieldGroupType',
         Label: 'Stock & Rating',
         Data : [
-            // PROGRESS BAR — rating as progress
+            
             {
                 $Type : 'UI.DataFieldForAnnotation',
                 Label : 'Stock Level',
                 Target: '@UI.DataPoint#StockProgress',
             },
 
-            //  DATA POINT — rating as star
             {
                 $Type : 'UI.DataFieldForAnnotation',
                 Label : 'Rating',
@@ -291,9 +283,7 @@ annotate service.Products with @(
     },
 
 
-    // ================================
-    //  DATA POINT — Rating as Stars
-    // ================================
+ 
     UI.DataPoint #Rating       : {
         Value        : rating,
         Title        : 'Rating',
@@ -302,16 +292,13 @@ annotate service.Products with @(
          // ✅ color based on rating value
         CriticalityCalculation: {
         ImprovementDirection  : #Maximize,
-        ToleranceRangeLowValue: 3,   // below 3 = red
-        DeviationRangeLowValue: 2,   // below 2 = orange
-    },
+        ToleranceRangeLowValue: 3,   
+        DeviationRangeLowValue: 2,  
 
     },
 
 
-    // ================================
-    //  PROGRESS BAR — Stock Level
-    // ================================
+  
     UI.DataPoint #StockProgress: {
         Value        : stockQty,
         Title        : 'Stock Level',
@@ -319,8 +306,8 @@ annotate service.Products with @(
         // max stock = 500
         Visualization: #Progress,
         // shows as progress bar
-        Criticality  : stockCriticality, // color based on stock
+        Criticality  : stockCriticality, 
     },
-);
+});
 
 
