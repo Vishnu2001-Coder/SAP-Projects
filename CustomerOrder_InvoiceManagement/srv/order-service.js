@@ -2,13 +2,10 @@ const cds = require('@sap/cds');
 const { SELECT, INSERT, UPDATE } = require('@sap/cds/lib/ql/cds-ql');
 
 module.exports = cds.service.impl(async function () {
-    const { SalesOrders, Customers, Products, OrderItems } = this.entities;
+    const { SalesOrders, Customers, Products, OrderItems, ExternalProducts } = this.entities;
 
-    // =====================================================================
-    // HELPERS
-    // =====================================================================
+    const s4= await cds.connect.to('API_PRODUCT_SRV');
 
-    // ✅ Safely extract UUID from bound action params (works for draft-enabled entities)
     function getID(req) {
         console.log(`[getID] req.params:`, JSON.stringify(req.params));
         const p = req.params && req.params[0];
@@ -17,14 +14,14 @@ module.exports = cds.service.impl(async function () {
         return p.ID || p.id || null;
     }
 
-    // ✅ Check if action was triggered on a Draft (not yet saved active entity)
+   
     function isDraft(req) {
         const p = req.params && req.params[0];
         if (!p || typeof p === 'string') return false;
         return p.IsActiveEntity === false || p.IsActiveEntity === 'false';
     }
 
-    // ✅ Calculate discount based on quantity tiers
+    
     function getDiscount(quantity) {
         if      (quantity >= 10) return 600;
         else if (quantity >= 5)  return 400;
@@ -32,21 +29,66 @@ module.exports = cds.service.impl(async function () {
         else                     return 0;
     }
 
-    // ✅ Calculate tax — taxRate stored as percentage (e.g. 18 means 18%)
+   
     function getTax(quantity, unitPrice, taxRate) {
         return parseFloat((quantity * unitPrice * taxRate / 100).toFixed(2));
     }
 
-    // ✅ Calculate line total
+    
     function getLineTotal(quantity, unitPrice, taxAmount, discount) {
         return parseFloat((quantity * unitPrice + taxAmount - discount).toFixed(2));
     }
 
 
-    // =====================================================================
-    // DRAFT — OrderItems
-    // Triggered when user selects product or changes quantity → clicks Apply
-    // =====================================================================
+    this.on('READ',ExternalProducts,async (req) => {
+          try{
+            //    const products = await s4.run(SELECT.from(ExternalProducts));
+            const products = await s4.run(req.query);
+               return products;
+          }
+          catch(err){
+              return req.error(500, err.message);
+          }
+    })
+
+    this.on('addCustomer', async (req) => {
+        try{
+            const reqData = req.data;
+            const tc = cds.tx(req);
+             console.log(reqData);
+
+            for(let field in reqData){
+                if(reqData[field] === null || reqData[field] === undefined || reqData[field] === "")
+                    return req.error(400, `Empty field cant accept ${field}`);     
+             }
+             const res = await tc.run(INSERT.into(Customers).entries(reqData));
+             return  req.info('Successfully added customer.');
+    }
+    catch(err){
+        return req.error(500, err.message);
+    }
+});
+
+    this.on('addProduct', async (req) => {
+         try{
+            const reqData = req.data;
+            console.log(reqData);
+            
+            const tc = cds.tx(req);
+
+            for(let field in reqData){
+                if(reqData[field] === null || reqData[field] === undefined || reqData[field] === "")
+                    return req.error(400, `Empty field cant accept ${field}`);     
+             }
+             const res = await tc.run(INSERT.into(Products).entries(reqData));
+             return  req.info('Successfully added product.');
+    }
+    catch(err){
+        return req.error(500, err.message);
+    }
+
+    });
+ 
     this.before(['CREATE', 'UPDATE'], 'MyService.OrderItems.drafts', async (req) => {
         try {
             const data = req.data;
@@ -68,13 +110,13 @@ module.exports = cds.service.impl(async function () {
                 }
             }
 
-            // Can't calculate without both values — skip silently
+         
             if (!product_ID || !quantity) {
                 console.log(`[OrderItem DRAFT] Skipping — missing product_ID or quantity`);
                 return;
             }
 
-            // Fetch product fresh from DB every time
+          
             const productInfo = await tc.run(
                 SELECT.from(Products).where({ ID: product_ID })
             );
@@ -85,7 +127,7 @@ module.exports = cds.service.impl(async function () {
 
             const product = productInfo[0];
 
-            // ✅ Calculate all fields fresh from product master
+          
             data.unitPrice = product.unitPrice;
             data.discount  = getDiscount(quantity);
             data.taxAmount = getTax(quantity, product.unitPrice, product.taxRate);
@@ -98,16 +140,12 @@ module.exports = cds.service.impl(async function () {
             );
 
         } catch (err) {
-            // Log but don't throw — let draft continue
+         
             console.error(`[OrderItem DRAFT] Error:`, err.message);
         }
     });
 
 
-    // =====================================================================
-    // SAVE SalesOrders (draftActivate)
-    // Triggered when user clicks final Create/Save button on Sales Order
-    // =====================================================================
     this.before('SAVE', SalesOrders, async (req) => {
         try {
             const data = req.data;
@@ -115,7 +153,7 @@ module.exports = cds.service.impl(async function () {
 
             console.log(`[SAVE] SalesOrder customer_ID: ${data.customer_ID}`);
 
-            // 1. Set shipping address from customer
+          
             if (data.customer_ID) {
                 const customerInfo = await tc.run(
                     SELECT.from(Customers).where({ ID: data.customer_ID })
@@ -125,12 +163,12 @@ module.exports = cds.service.impl(async function () {
                 }
             }
 
-            // 2. Set status fields
+        
             data.status            = 'WaitingForConfirmation';
             data.statusCriticality = 2;
             data.orderDate         = new Date().toISOString().split('T')[0];
 
-            // 3. Recalculate all order items
+           
             const items = data.items;
             if (!items || items.length === 0) {
                 data.totalAmount = 0;
@@ -175,10 +213,7 @@ module.exports = cds.service.impl(async function () {
     });
 
 
-    // =====================================================================
-    // BOUND ACTION — confirmOrder
-    // WaitingForConfirmation → Confirmed
-    // =====================================================================
+  
     this.on('confirmOrder', SalesOrders, async (req) => {
         try {
             const tc = cds.tx(req);
@@ -204,7 +239,6 @@ module.exports = cds.service.impl(async function () {
             if (Number(order.totalAmount) > Number(customer.creditLimit))
                 return req.error(400, `Credit limit insufficient. Order: ₹${order.totalAmount}, Limit: ₹${customer.creditLimit}`);
 
-            // Check stock
             for (let item of orderItems) {
                 const [product] = await tc.run(SELECT.from(Products).where({ ID: item.product_ID }));
                 if (!product) return req.error(404, `Product not found`);
@@ -227,7 +261,7 @@ module.exports = cds.service.impl(async function () {
                     .set({
                         status           : 'Confirmed',
                         statusCriticality: 3,
-                        trackingNumber   : `TRK-${Date.now()}`,
+                        trackingNumber   : `TRK-${Date.now()}`,                 //unique number for every  Milliseconds
                     })
                     .where({ ID: id })
             );
@@ -241,10 +275,7 @@ module.exports = cds.service.impl(async function () {
     });
 
 
-    // =====================================================================
-    // BOUND ACTION — shipOrder
-    // Confirmed → Shipped
-    // =====================================================================
+
     this.on('shipOrder', SalesOrders, async (req) => {
         try {
             const tc = cds.tx(req);
@@ -275,10 +306,7 @@ module.exports = cds.service.impl(async function () {
     });
 
 
-    // =====================================================================
-    // BOUND ACTION — deliverOrder
-    // Shipped → Delivered + auto-creates Invoice
-    // =====================================================================
+   
     this.on('deliverOrder', SalesOrders, async (req) => {
         try {
             const tc = cds.tx(req);
@@ -295,11 +323,11 @@ module.exports = cds.service.impl(async function () {
                 return req.error(400, `Cannot deliver. Status: '${order.status}'. Need 'Shipped'.`);
 
             const orderItems = await tc.run(SELECT.from(OrderItems).where({ order_ID: id }));
-            const totalTax = orderItems.reduce((sum, i) => sum + Number(i.taxAmount || 0), 0);
+            const totalTax = orderItems.reduce((sum, i) => sum + Number(i.taxAmount || 0), 0);           //?
 
             const today      = new Date().toISOString().split('T')[0];
             const dueDate    = new Date();
-            dueDate.setDate(dueDate.getDate() + 30);
+            dueDate.setDate(dueDate.getDate() + 30);                                        //
             const dueDateStr = dueDate.toISOString().split('T')[0];
 
             await tc.run(
@@ -308,7 +336,7 @@ module.exports = cds.service.impl(async function () {
                     .where({ ID: id })
             );
 
-            await tc.run(
+            await tc.run(                                                                            //!!!
                 INSERT.into('CustomerOrderDb.Invoices').entries({
                     salesOrder_ID: id,
                     invoiceDate  : today,
@@ -328,11 +356,7 @@ module.exports = cds.service.impl(async function () {
     });
 
 
-    // =====================================================================
-    // BOUND ACTION — cancelOrder
-    // Any → Cancelled (except Delivered/Cancelled)
-    // Restores stock if was Confirmed or Shipped
-    // =====================================================================
+  
     this.on('cancelOrder', SalesOrders, async (req) => {
         try {
             const tc = cds.tx(req);
@@ -348,7 +372,7 @@ module.exports = cds.service.impl(async function () {
             if (['Delivered', 'Cancelled'].includes(order.status))
                 return req.error(400, `Cannot cancel. Order is already '${order.status}'.`);
 
-            // Restore stock if it was already reduced
+           
             if (['Confirmed', 'Shipped'].includes(order.status)) {
                 const orderItems = await tc.run(SELECT.from(OrderItems).where({ order_ID: id }));
                 for (let item of orderItems) {
@@ -379,6 +403,21 @@ module.exports = cds.service.impl(async function () {
     });
 
 });
+
+//Note:
+/*
+1.composition retriving
+2.every query returns an array, even if its single record, so we need to do [0] to get the first record. or we can do destructuring like const [order] = await tc.run(SELECT.from(SalesOrders).where({ ID: id })); and then use order instead of order[0]
+3.if condition do opposite .
+4.define and create a object and then set the values and then update or insert instead of directly updating or inserting
+5.
+
+
+*/
+
+
+
+
 // const cds = require('@sap/cds');
 // const { SELECT, INSERT, UPDATE } = require('@sap/cds/lib/ql/cds-ql');
 

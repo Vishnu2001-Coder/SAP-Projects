@@ -1,12 +1,12 @@
 namespace CustomerOrderDb;
-
 using {managed} from '@sap/cds/common';
 
 
 
+using {  API_PRODUCT_SRV as api} from '../srv/external/API_PRODUCT_SRV.csn';   //package destructing
 
 
-type Category      : String enum { //!!!
+type Category      : String enum { 
     Electronics;
     Clothing;
     HomeAppliances;
@@ -36,6 +36,8 @@ type InvoiceStatus : String enum {
 }
 
 
+entity ExternalProducts as projection on api.A_Product;
+
 // =========================
 // CUSTOMERS
 // =========================
@@ -56,7 +58,7 @@ entity Customers : managed {
 
         shippingAddress : String(500)  @mandatory;
 
-        creditLimit     : Decimal(15, 2) not null default 50000.00;
+        creditLimit     : Decimal(15, 2)  default 150000.00;
 
         orders          : Association to many SalesOrders
                               on orders.customer = $self;
@@ -130,11 +132,11 @@ entity SalesOrders : managed {
 
         status          : OrderStatus default 'Draft';
 
-        orderDate       : Date default null @readonly;
+        orderDate       : Date default'not yet order confirm'  @readonly;
 
-        trackingNumber  : String(50) default 'not confirm order' @readonly;
+        trackingNumber  : String(50) default 'not yet order confirm' @readonly;
 
-        deliveryDate    : Date default null @readonly;
+        deliveryDate    : Date default 'not yet order confirm' @readonly;
 
         statusCriticality : Integer default 5; 
 
@@ -194,12 +196,12 @@ entity Invoices : managed {
         paymentreference : String(100);
 }
 
-entity Categories {
-    key ID            : UUID;
-        name          : String(50) @assert.unique;
-        taxPercentage : String not null;
+// entity Categories {
+//     key ID            : UUID;
+//         name          : String(50) @assert.unique;
+//         taxPercentage : String not null;
 
-}
+// }
 
 
 /* not null (Without @)                            @mandatory,@assert.unique

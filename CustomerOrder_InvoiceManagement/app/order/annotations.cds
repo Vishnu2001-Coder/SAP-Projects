@@ -1,9 +1,5 @@
 using MyService as service from '../../srv/order-service';
 
-// =====================================================================
-// SALES ORDERS — Value Helps
-// =====================================================================
-// In your order-service.cds — annotate actions directly
 annotate service.SalesOrders actions {
 
     confirmOrder @(
@@ -50,6 +46,7 @@ annotate service.SalesOrders actions {
         }
     );
 };
+
 annotate service.SalesOrders with {
     customer @(
         Common.ValueList               : {
@@ -98,10 +95,6 @@ annotate service.SalesOrders with {
     );
 };
 
-// =====================================================================
-// SALES ORDERS — LIST PAGE (Page 1)
-// 5 columns: Customer Name | First Product Image | Total Amount | Status | Actions
-// =====================================================================
 annotate service.SalesOrders with @(
 
     UI.SelectionFields: [
@@ -111,46 +104,42 @@ annotate service.SalesOrders with @(
         totalAmount,
     ],
 
-    // ── LIST PAGE COLUMNS ──
     UI.LineItem: [
         {
             $Type: 'UI.DataField',
             Label: 'Customer',
             Value: customer.name,
-             @HTML5.CssDefaults: {width: '200px'}
-            
+            @HTML5.CssDefaults: {width: '200px'}
         },
         {
             $Type: 'UI.DataField',
             Label: 'Total Amount (₹)',
             Value: totalAmount,
-             @HTML5.CssDefaults: {width: '200px'}
+            @HTML5.CssDefaults: {width: '200px'}
         },
         {
             $Type      : 'UI.DataField',
             Label      : 'Status',
             Value      : status,
             Criticality: statusCriticality,
-             @HTML5.CssDefaults: {width: '250px'}
+            @HTML5.CssDefaults: {width: '250px'}
         },
         {
             $Type: 'UI.DataField',
             Label: 'Order Date',
             Value: orderDate,
-             @HTML5.CssDefaults: {width: '200px'}
+            @HTML5.CssDefaults: {width: '200px'}
         },
         {
             $Type: 'UI.DataField',
             Label: 'Tracking Number',
             Value: trackingNumber,
-             @HTML5.CssDefaults: {width: '250px'}
+            @HTML5.CssDefaults: {width: '250px'}
         },
-        // ── BOUND ACTION BUTTONS (inline in list) ──
         {
             $Type             : 'UI.DataFieldForAction',
             Label             : 'Confirm',
             Action            : 'MyService.confirmOrder',
-            // Inline             : true,  
             ![@UI.Emphasized] : true,
         },
         {
@@ -170,23 +159,21 @@ annotate service.SalesOrders with @(
         },
     ],
 
-    // ── OBJECT PAGE HEADER (Page 2) ──
     UI.HeaderInfo: {
         TypeName      : 'Sales Order',
         TypeNamePlural: 'Sales Orders',
         Title         : {
             $Type: 'UI.DataField',
-            Value: customer.name,   // Customer name as title
+            Value: customer.name,
         },
         Description   : {
             $Type      : 'UI.DataField',
             Value      : status,
             Criticality: statusCriticality,
         },
-        ImageUrl      : items.product.imageUrl,  // First product image in header
+        ImageUrl      : items.product.imageUrl,
     },
 
-    // ── OBJECT PAGE HEADER FACETS (KPI chips) ──
     UI.HeaderFacets: [
         {
             $Type : 'UI.ReferenceFacet',
@@ -222,7 +209,6 @@ annotate service.SalesOrders with @(
         Title: 'Delivery Date',
     },
 
-    // ── OBJECT PAGE FACETS (Page 2 sections) ──
     UI.Facets: [
         {
             $Type : 'UI.ReferenceFacet',
@@ -295,11 +281,6 @@ annotate service.SalesOrders with @(
     },
 );
 
-
-// =====================================================================
-// ORDER ITEMS — Value Helps
-// =====================================================================
-// ── Value Helps + Text + Image ──
 annotate service.OrderItems with {
     product { imageUrl @UI.IsImageURL; }
 
@@ -333,26 +314,18 @@ annotate service.OrderItems with {
     );
 };
 
-// ── SideEffects — refresh calculated fields after product/qty change ──
 annotate service.OrderItems with @Common.SideEffects#itemChange: {
     SourceProperties: ['product_ID', 'quantity'],
     TargetProperties: ['unitPrice', 'taxAmount', 'discount', 'lineTotal']
 };
 
-
-
-// =====================================================================
-// ORDER ITEMS — TABLE inside Object Page (Page 2 → items section)
-// All product images shown per row
-// =====================================================================
 annotate service.OrderItems with @(
 
-    // ── ORDER ITEMS TABLE columns (shown inside SalesOrder object page) ──
     UI.LineItem #OrderItemsTable: [
         {
             $Type : 'UI.DataField',
             Label : 'Product Image',
-            Value : product.imageUrl,   // ✅ each row shows its product image
+            Value : product.imageUrl,
             @HTML5.CssDefaults: {width: '150px'}
         },
         {
@@ -393,19 +366,18 @@ annotate service.OrderItems with @(
         },
     ],
 
-    // ── ORDER ITEM OBJECT PAGE (Page 3) ──
     UI.HeaderInfo: {
         TypeName      : 'Order Item',
         TypeNamePlural: 'Order Items',
         Title         : {
             $Type: 'UI.DataField',
-            Value: product.name,        // Product name as title
+            Value: product.name,
         },
         Description   : {
             $Type: 'UI.DataField',
             Value: product.productCode,
         },
-        ImageUrl      : product.imageUrl,   // ✅ product image in page 3 header
+        ImageUrl      : product.imageUrl,
     },
 
     UI.HeaderFacets: [

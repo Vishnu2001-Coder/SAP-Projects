@@ -1,11 +1,17 @@
-using MyService as service from '../../srv/order-service';
+using { MyService as service } from '../../srv/order-service';
 
 
 annotate service.Products with {
 
+    //  productCode @UI.Placeholder: 'e.g. PROD-031';
+    //      name        @UI.Placeholder: 'e.g. Dell Inspiron Laptop';
+
+    //  productCode @Core.Description: 'e.g. PROD-031';
+    // name        @Core.Description: 'e.g. Dell Inspiron Laptop';
+
+  
     imageUrl @UI.IsImageURL;
 
-    // category -> FixedValues TRUE (has enum)
     category @(
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
@@ -18,10 +24,9 @@ annotate service.Products with {
                 },
             ],
         },
-        Common.ValueListWithFixedValues: true, // ← dropdown ▼
+        Common.ValueListWithFixedValues: true,
     );
 
-    // name → FixedValues FALSE 
     name @(
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
@@ -42,10 +47,9 @@ annotate service.Products with {
                 },
             ],
         },
-        Common.ValueListWithFixedValues: true, 
+        Common.ValueListWithFixedValues: true,
     );
 
-   
     rating @(
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
@@ -62,10 +66,9 @@ annotate service.Products with {
                 },
             ],
         },
-        Common.ValueListWithFixedValues: false, // ← popup 🔍
+        Common.ValueListWithFixedValues: false,
     );
 
-    
     unitPrice @(
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
@@ -86,10 +89,9 @@ annotate service.Products with {
                 },
             ],
         },
-        Common.ValueListWithFixedValues: false, // ← popup 🔍
+        Common.ValueListWithFixedValues: false,
     );
 
-    
     stockQty @(
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
@@ -106,7 +108,7 @@ annotate service.Products with {
                 },
             ],
         },
-        Common.ValueListWithFixedValues: false, // ← popup 🔍
+        Common.ValueListWithFixedValues: false,
     );
 };
 
@@ -175,23 +177,28 @@ annotate service.Products with @(
             Target            : '@UI.DataPoint#Rating',
             @HTML5.CssDefaults: {width: '150px'}
         },
-
+         {
+            $Type             : 'UI.DataFieldForAction',
+            Label             : 'Create Product',
+            Action            : 'MyService.EntityContainer/addProduct',
+            @HTML5.CssDefaults: {width: '150px'}
+        },
     ],
-   
+
+
     UI.HeaderInfo              : {
         TypeName      : 'Product',
         TypeNamePlural: 'Products',
         Title         : {
             $Type: 'UI.DataField',
-            Value: name, // big title
+            Value: name,
         },
         Description   : {
             $Type: 'UI.DataField',
-            Value: productCode, // subtitle
+            Value: productCode,
         },
-        ImageUrl      : imageUrl, // header image
+        ImageUrl      : imageUrl,
     },
-
 
     UI.Facets                  : [
         {
@@ -214,8 +221,6 @@ annotate service.Products with @(
         },
     ],
 
-
-    // Facet 1 — Product Information
     UI.FieldGroup #ProductInfo : {
         $Type: 'UI.FieldGroupType',
         Label: 'Product Information',
@@ -243,7 +248,6 @@ annotate service.Products with @(
         ],
     },
 
-    // Facet 2 — Pricing & Tax
     UI.FieldGroup #Pricing     : {
         $Type: 'UI.FieldGroupType',
         Label: 'Pricing & Tax',
@@ -261,53 +265,45 @@ annotate service.Products with @(
         ],
     },
 
-    // Facet 3 — Stock & Rating
     UI.FieldGroup #StockRating : {
         $Type: 'UI.FieldGroupType',
         Label: 'Stock & Rating',
         Data : [
-            
             {
                 $Type : 'UI.DataFieldForAnnotation',
                 Label : 'Stock Level',
                 Target: '@UI.DataPoint#StockProgress',
             },
-
             {
                 $Type : 'UI.DataFieldForAnnotation',
                 Label : 'Rating',
                 Target: '@UI.DataPoint#Rating',
             },
-
         ],
     },
 
-
- 
     UI.DataPoint #Rating       : {
         Value        : rating,
         Title        : 'Rating',
         TargetValue  : 5,
         Visualization: #Rating,
-         // ✅ color based on rating value
         CriticalityCalculation: {
-        ImprovementDirection  : #Maximize,
-        ToleranceRangeLowValue: 3,   
-        DeviationRangeLowValue: 2,  
-
+            ImprovementDirection  : #Maximize,
+            ToleranceRangeLowValue: 3,
+            DeviationRangeLowValue: 2,
+        },
     },
 
-
-  
     UI.DataPoint #StockProgress: {
         Value        : stockQty,
         Title        : 'Stock Level',
         TargetValue  : 500,
-        // max stock = 500
         Visualization: #Progress,
-        // shows as progress bar
-        Criticality  : stockCriticality, 
+       // Criticality  : stockCriticality,
     },
-});
 
-
+        UI.PresentationVariant                : {
+        Visualizations: ['@UI.LineItem'],
+        MaxItems      : 2
+    },
+);

@@ -3,10 +3,12 @@ using { CustomerOrderDb as db } from '../db/schema';
 @(path: 'OrderService')
 service MyService @(impl: './order-service.js') {
 
-    entity Customers as projection on db.Customers;
+    entity ExternalProducts as projection on db.ExternalProducts;
 
+    entity Customers as projection on db.Customers ;
+       
     entity Products  as projection on db.Products;
-
+  
     @odata.draft.enabled
     entity SalesOrders as projection on db.SalesOrders
         actions {
@@ -18,9 +20,45 @@ service MyService @(impl: './order-service.js') {
 
     entity OrderItems  as projection on db.OrderItems;
 
-    entity Categories  as projection on db.Categories;
+    // type customer{
+    //     customerCode: String;
+    //     name:String;
+    //     email:String;
+    //     phone:String;
+    //     billingAddress:String;
+    //     shippingAddress:String;
+    // }
 
-    action addProducts(cus: array of Categories) returns String;
+    action addCustomer(customerCode: String,
+        name:String,
+        email:String,
+        phone:String,
+        billingAddress:String,
+        shippingAddress:String) returns String;
+
+
+    // type prod {
+    //     productCode:String;
+    //     name:String;
+    //     unitPrice:Decimal(15, 2);
+    //     category:String;
+    //     taxRate:Decimal(15, 2);
+    //     stockQty:Integer;
+    //     rating:Integer;
+    //     imageUrl:String;
+    // }
+    action addProduct( productCode:String,
+        name:String,
+        unitPrice:Decimal(15, 2),
+        category:String,
+        taxRate:Decimal(15, 2),
+        stockQty:Integer,
+        rating:Integer,
+        imageUrl:String) returns String;
+
+    // entity Categories  as projection on db.Categories;
+
+ 
 }
 
 
