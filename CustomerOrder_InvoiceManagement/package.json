@@ -7,10 +7,12 @@
     "@sap-cloud-sdk/http-client": "^4",
     "@sap-cloud-sdk/resilience": "^4",
     "@sap/cds": "^9.9.1",
-    "@sap/cds-dk": "^9.9.1"
+    "@sap/cds-dk": "^9.9.1",
+    "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^2.4",
+    "@sap/cds-dk": "^9",
     "cds-plugin-ui5": "^0.13.0"
   },
   "scripts": {
@@ -32,6 +34,9 @@
     "app/invoice"
   ],
   "cds": {
+    "server": {
+      "index": true
+    },
     "requires": {
       "API_PRODUCT_SRV": {
         "kind": "odata-v2",
@@ -42,6 +47,9 @@
             "APIKey": "12dLMOH6G35JxCvO5kYjFC2axBu1fP55"
           }
         }
+      },
+      "[production]": {
+        "auth": "xsuaa"
       }
     }
   }

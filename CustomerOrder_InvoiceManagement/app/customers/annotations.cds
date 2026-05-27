@@ -120,8 +120,8 @@ annotate service.Customers with @(
         {
             $Type             : 'UI.DataFieldForAction',
             Label             : 'Add Customer',
-            Action            : 'MyService.Customers_addCustomer',
-            ![@UI.Emphasized] : true,
+            Action            : 'MyService.EntityContainer/addCustomer',
+           
         },
     ],
 

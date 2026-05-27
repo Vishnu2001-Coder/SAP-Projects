@@ -132,11 +132,11 @@ entity SalesOrders : managed {
 
         status          : OrderStatus default 'Draft';
 
-        orderDate       : Date default'not yet order confirm'  @readonly;
+        orderDate       : Date  @readonly;
 
         trackingNumber  : String(50) default 'not yet order confirm' @readonly;
 
-        deliveryDate    : Date default 'not yet order confirm' @readonly;
+        deliveryDate    : Date  @readonly;
 
         statusCriticality : Integer default 5; 
 
@@ -196,12 +196,12 @@ entity Invoices : managed {
         paymentreference : String(100);
 }
 
-// entity Categories {
-//     key ID            : UUID;
-//         name          : String(50) @assert.unique;
-//         taxPercentage : String not null;
+entity Categories {
+    key ID            : UUID;
+        name          : String(50) @assert.unique;
+        taxPercentage : String not null;
 
-// }
+}
 
 
 /* not null (Without @)                            @mandatory,@assert.unique

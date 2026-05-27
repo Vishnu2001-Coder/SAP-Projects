@@ -402,6 +402,149 @@ module.exports = cds.service.impl(async function () {
         }
     });
 
+
+
+    this.on('autoShipOrders', async (req) => {
+
+    const tc = cds.tx(req);
+
+    const orders = await tc.run(
+        SELECT.from(SalesOrders)
+        .where({ status: 'Confirmed' })
+    );
+
+    for (let order of orders) {
+
+        await tc.run(
+            UPDATE(SalesOrders)
+            .set({
+                status: 'Shipped',
+                statusCriticality: 5
+            })
+            .where({ ID: order.ID })
+        );
+
+        console.log(`Auto shipped order: ${order.ID}`);
+    }
+
+    return `Auto shipment completed`;
+});
+
+
+
+this.on('autoDeliverOrders', async (req) => {
+    try {
+
+        const tc = cds.tx(req);
+
+        // Find all shipped orders
+        const shippedOrders = await tc.run(
+            SELECT.from(SalesOrders)
+                .where({ status: 'Shipped' })
+        );
+
+        if (!shippedOrders.length) {
+            return req.info('No shipped orders found.');
+        }
+
+        for (let order of shippedOrders) {
+
+            const orderItems = await tc.run(
+                SELECT.from(OrderItems)
+                    .where({ order_ID: order.ID })
+            );
+
+            const totalTax = orderItems.reduce(
+                (sum, i) => sum + Number(i.taxAmount || 0),
+                0
+            );
+
+            const today = new Date().toISOString().split('T')[0];
+
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 30);
+
+            const dueDateStr = dueDate
+                .toISOString()
+                .split('T')[0];
+
+            // Update order status
+            await tc.run(
+                UPDATE(SalesOrders)
+                    .set({
+                        status: 'Delivered',
+                        statusCriticality: 3,
+                        deliveryDate: today
+                    })
+                    .where({ ID: order.ID })
+            );
+
+            // Create invoice
+            await tc.run(
+                INSERT.into('CustomerOrderDb.Invoices').entries({
+                    salesOrder_ID: order.ID,
+                    invoiceDate: today,
+                    dueDate: dueDateStr,
+                    totalAmount: order.totalAmount,
+                    taxAmount: parseFloat(totalTax.toFixed(2)),
+                    status: 'Pending'
+                })
+            );
+
+            console.log(
+                `[autoDeliverOrders] Delivered Order: ${order.ID}`
+            );
+        }
+
+        return req.info(
+            `${shippedOrders.length} orders delivered automatically.`
+        );
+
+    } catch (err) {
+
+        console.error(
+            `[autoDeliverOrders] Error:`,
+            err.message
+        );
+
+        return req.error(500, err.message);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
 //Note:

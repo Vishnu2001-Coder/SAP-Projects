@@ -282,7 +282,7 @@ annotate service.SalesOrders with @(
 );
 
 annotate service.OrderItems with {
-    product { imageUrl @UI.IsImageURL; }
+    // product { imageUrl @UI.IsImageURL; }
 
     product @(
         Common.Text                    : product.name,
