@@ -1,7 +1,7 @@
 namespace sample.srv;
 using { elms.db as db } from '../db/schema';
 
-service Myservice{
+service Myservice1{
 
     entity Employee      as projection on db.Employee;
     entity Department    as projection on db.Department;

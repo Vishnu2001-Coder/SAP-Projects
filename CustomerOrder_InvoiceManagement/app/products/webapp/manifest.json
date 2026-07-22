@@ -62,7 +62,8 @@
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
-        "sap.fe.templates": {}
+        "sap.fe.templates": {},
+        "sap.f": {}
       }
     },
     "contentDensities": {
@@ -94,17 +95,28 @@
       "css": []
     },
     "routing": {
-      "config": {},
+      "config": {
+        "flexibleColumnLayout": {
+          "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+          "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+        },
+        "routerClass": "sap.f.routing.Router"
+      },
       "routes": [
         {
           "pattern": ":?query:",
           "name": "ProductsList",
-          "target": "ProductsList"
+          "target": [
+            "ProductsList"
+          ]
         },
         {
           "pattern": "Products({key}):?query:",
           "name": "ProductsObjectPage",
-          "target": "ProductsObjectPage"
+          "target": [
+            "ProductsList",
+            "ProductsObjectPage"
+          ]
         }
       ],
       "targets": {
@@ -115,7 +127,7 @@
           "options": {
             "settings": {
               "contextPath": "/Products",
-              "variantManagement": "Page",
+              "variantManagement": "None",
               "navigation": {
                 "Products": {
                   "detail": {
@@ -130,9 +142,11 @@
                   }
                 }
               },
-              "initialLoad":"Enabled"
+              "initialLoad": "Enabled"
             }
-          }
+          },
+          "controlAggregation": "beginColumnPages",
+          "contextPattern": ""
         },
         "ProductsObjectPage": {
           "type": "Component",
@@ -143,9 +157,17 @@
               "editableHeaderContent": false,
               "contextPath": "/Products"
             }
-          }
+          },
+          "controlAggregation": "midColumnPages",
+          "contextPattern": "/Products({key})"
         }
       }
+    },
+    "rootView": {
+      "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+      "type": "XML",
+      "async": true,
+      "id": "appRootView"
     }
   },
   "sap.fiori": {
@@ -156,5 +178,9 @@
     "app": {
       "enableLazyLoading": true
     }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "CustomerOrder_InvoiceManagement.service"
   }
 }

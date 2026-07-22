@@ -2,7 +2,7 @@
   "name": "khibana",
   "version": "1.0.0",
   "dependencies": {
-    "@cap-js/hana": "^2",
+    "@cap-js/hana": "^2.8.0",
     "@sap/cds": "^9",
     "@sap/cds-dk": "^9.9.0",
     "@sap/xssec": "^4"

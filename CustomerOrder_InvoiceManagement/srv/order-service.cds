@@ -143,7 +143,7 @@ service MyService @(impl: './order-service.js') {
     // }
 
 
-// entity Categories  as projection on db.Categories;
+action addDats (datas: array of Products) returns String;
 
 
 }

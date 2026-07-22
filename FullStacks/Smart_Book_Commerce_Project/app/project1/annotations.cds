@@ -437,7 +437,7 @@ annotate service.Reviews with @(
 )
 
 //Note->
-//Basic Things :additional annote service (Line Item) only accept for root entity UI
+//Basic Things : additional annote service (Line Item) only accept for root entity UI
 //Others like feildgroup are cant map. Feilds groups for only for own entity
 //Main rule : have to Many then only appear.
 //note , while mapping use Property name not annotateservicename , they didnt suggest   !!!

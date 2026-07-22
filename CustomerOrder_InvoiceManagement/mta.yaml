@@ -4,6 +4,7 @@ version: 1.0.0
 description: "A simple CAP project."
 parameters:
   enable-parallel-deployments: true
+  deploy_mode: html5-repo
 build-parameters:
   before-all:
     - builder: custom
@@ -50,11 +51,130 @@ modules:
           url: ~{srv-url}
           forwardAuthToken: true
       - name: CustomerOrder_InvoiceManagement-auth
+      - name: CustomerOrder_InvoiceManagement-html5-runtime
     provides:
       - name: app-api
         properties:
           app-protocol: ${protocol}
           app-uri: ${default-uri}
+
+  - name: CustomerOrder_InvoiceManagement-app-deployer
+    type: com.sap.application.content
+    path: gen
+    build-parameters:
+      build-result: app/
+      requires:
+        - name: CustomerOrder_InvoiceManagementcustomers
+          artifacts:
+            - customers.zip
+          target-path: app/
+        - name: CustomerOrder_InvoiceManagementinvoice
+          artifacts:
+            - invoice.zip
+          target-path: app/
+        - name: CustomerOrder_InvoiceManagementorder
+          artifacts:
+            - order.zip
+          target-path: app/
+        - name: CustomerOrder_InvoiceManagementproducts
+          artifacts:
+            - products.zip
+          target-path: app/
+    requires:
+      - name: CustomerOrder_InvoiceManagement-auth
+      - name: srv-api
+      - name: CustomerOrder_InvoiceManagement-html5-repo-host
+        parameters:
+          content-target: true
+          config:
+            HTML5Runtime_enabled: true
+    parameters:
+      config:
+        destinations:
+          - Name: srv-api
+            URL: ~{srv-api/srv-url}
+            Authentication: NoAuthentication
+            Type: HTTP
+            ProxyType: Internet
+            HTML5.ForwardAuthToken: true
+            HTML5.DynamicDestination: true
+
+  - name: CustomerOrder_InvoiceManagementcustomers
+    type: html5
+    path: app/customers
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+  - name: CustomerOrder_InvoiceManagementinvoice
+    type: html5
+    path: app/invoice
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+  - name: CustomerOrder_InvoiceManagementorder
+    type: html5
+    path: app/order
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+  - name: CustomerOrder_InvoiceManagementproducts
+    type: html5
+    path: app/products
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+
+  - name: CustomerOrder_InvoiceManagement-destinations
+    type: com.sap.application.content
+    requires:
+      - name: CustomerOrder_InvoiceManagement-auth
+        parameters:
+          service-key:
+            name: CustomerOrder_InvoiceManagement-auth-key
+      - name: CustomerOrder_InvoiceManagement-html5-repo-host
+        parameters:
+          service-key:
+            name: CustomerOrder_InvoiceManagement-html5-repo-host-key
+      - name: srv-api
+      - name: CustomerOrder_InvoiceManagement-destination
+        parameters:
+          content-target: true
+    build-parameters:
+      no-source: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: CustomerOrder_InvoiceManagement-html5-repository
+              ServiceInstanceName: CustomerOrder_InvoiceManagement-html5-repo-host
+              ServiceKeyName: CustomerOrder_InvoiceManagement-html5-repo-host-key
+              sap.cloud.service: CustomerOrder_InvoiceManagement.service
+            - Name: CustomerOrder_InvoiceManagement-auth
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: CustomerOrder_InvoiceManagement-auth
+              ServiceKeyName: CustomerOrder_InvoiceManagement-auth-key
+              sap.cloud.service: CustomerOrder_InvoiceManagement.service
 
 resources:
   - name: CustomerOrder_InvoiceManagement-auth
@@ -73,14 +193,18 @@ resources:
           redirect-uris:
             - https://*~{app-api/app-uri}/**
         role-collections:
-          - name: 'SalesManager (CustomerOrder_InvoiceManagement ${org}-${space})'
+          - name: 'Finance (CustomerOrder_InvoiceManagement ${org}-${space})'
             description: 'generated'
             role-template-references:
-              - '$XSAPPNAME.SalesManager'
+              - '$XSAPPNAME.Finance'
           - name: 'Adminstrator (CustomerOrder_InvoiceManagement ${org}-${space})'
             description: 'generated'
             role-template-references:
               - '$XSAPPNAME.Adminstrator'
+          - name: 'SalesManager (CustomerOrder_InvoiceManagement ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.SalesManager'
           - name: 'SalesRep (CustomerOrder_InvoiceManagement ${org}-${space})'
             description: 'generated'
             role-template-references:
@@ -97,3 +221,16 @@ resources:
     parameters:
       service: destination
       service-plan: lite
+    requires:
+      - name: srv-api
+
+  - name: CustomerOrder_InvoiceManagement-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: CustomerOrder_InvoiceManagement-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime

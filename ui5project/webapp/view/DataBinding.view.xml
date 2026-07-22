@@ -1,0 +1,89 @@
+<mvc:View
+    controllerName="ui5project.controller.DataBinding"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:table="sap.ui.table"
+    xmlns="sap.m"
+>
+
+    <Page >
+        <content>
+
+          <Input value="{/name}" />                                        <!-- Editable controls                 normal Binding Expression -->
+         
+            <Text text="{/name}" />                                           <!--Display Controls -->
+       
+            <Text text="{:= ${/name}}" />                                        <!-- Expression Binding -->
+          
+
+            <!--  List Binding -->
+
+            <List items="{StudentModel>/Students}">                                 <!-- this is a ui.controls and listbinding after this our ui5 bind this jsonModel , will find the Objects count , cretaes a templates , and iterate the first object and bind with the controls .the clone the template   -->
+             
+                <items>
+                    <StandardListItem
+                        title="{StudentModel>name}"
+                        description="{StudentModel>age}"
+                    />                                                            <!-- UI5 cretaes a templates in UI using this StandardListItem , and Binding context is happen  -->
+                   
+                </items>
+            </List>
+
+
+            <!-- Table Binding-->
+
+            <List items="{TableDatas>/students}">
+                <items>
+                    <StandardListItem
+                        title="{TableDatas>name}"
+                        description="{TableDatas>city}"
+                    />
+                </items>
+            </List>
+
+          
+           <Table items="{TableDatas>/students}"
+           multiSelectMode="SelectAll"
+           
+         >                      <!--create a table , and access the Model (Aggregation Binding) , create a row based on Objects -->
+                <columns>                                                 <!-- Aggregation Of Table , It holds a coulum name-->
+                    <Column>
+                        <Text text="ID" />
+                    </Column>
+
+                    <Column>
+                        <Text text="Name" />
+                    </Column>
+
+                    <Column>
+                        <Text text="Age" />
+                    </Column>
+
+                    <Column>
+                        <Text text="City" />
+                    </Column>
+                </columns>
+
+                <items>                                                           <!-- its a aggregation it holds a ColumnListItem whichis template ,Ui5 automattically clones the cells and Context Binding is happen during the iteraration -->
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{TableDatas>id}" />
+
+                            <Text text="{TableDatas>name}" />
+
+                            <Text text="{TableDatas>age}" />
+
+                            <Text text="{TableDatas>city}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
+            
+        </content>
+    </Page>
+</mvc:View>
+
+
+
+<!-- template is a automattically clones template for each object in the array -->
+<!-- binding Context is the data object that is currently bound to the control. its automatticaly change every  -->

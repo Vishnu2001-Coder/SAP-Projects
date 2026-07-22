@@ -1,0 +1,24 @@
+<mvc:View
+    controllerName="ui5project.controller.Button"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+   <Input id="input1" value="Ram" />       
+
+    <Button
+        id="b1"
+        text="{/name}"         
+        press="onPress"
+    />
+     <Button
+        id="b2"
+        text="Click to go learn the Json data Binding "
+        press="onPress2"
+    />
+
+     <Button
+        id="b3"
+        text="Click to go learn the OdataModel data Binding "
+        press="onPress3"
+    />
+</mvc:View>

@@ -1,13 +1,17 @@
 {
-   "xsappname": "customerorder-invoicemanagement_Xsuaa",
- "tenant-mode": "dedicated",
- "oauth2-configuration": {
-  "redirect-uris": [
-   "http://localhost:5000/**",
-   "https://*.cfapps.us10-001.hana.ondemand.com/**",
-   "https://*.applicationstudio.cloud.sap/**"
-  ]
- },
+  "xsappname": "customerorder-invoicemanagement_Xsuaa",
+  "tenant-mode": "dedicated",
+  "oauth2-configuration": {
+    "credential-types": [
+      "binding-secret",
+      "x509"
+    ],
+    "redirect      -uris": [
+      "http://localhost:5000/**",
+      "https://*.cfapps.us10-001.hana.ondemand.com/**",
+    "https://*.applicationstudio.cloud.sap/**"
+    ]
+  },
   "scopes": [
     {
       "name": "$XSAPPNAME.Finance",

@@ -1,0 +1,10 @@
+<mvc:View
+    controllerName="ui5project.controller.ODataModelBinding"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+<Text text="Hi Welcome To oData Model"></Text>
+<Button text="click" press="buttonOne"></Button>
+
+
+</mvc:View>

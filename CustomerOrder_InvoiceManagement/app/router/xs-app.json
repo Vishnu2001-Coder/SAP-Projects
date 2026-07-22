@@ -1,18 +1,7 @@
 {
   "authenticationMethod": "route",
   "routes": [
-    {
-      "source": "^/odata/v4/OrderService/autoDeliverOrders$",
-      "target": "/odata/v4/OrderService/autoDeliverOrders",
-      "destination": "srv-api",
-      "authenticationType": "none"
-    },
-    {
-      "source": "^/odata/v4/OrderService/autoShipOrders$",
-      "target": "/odata/v4/OrderService/autoShipOrders",
-      "destination": "srv-api",
-      "authenticationType": "none"
-    },
+   
     {
       "source": "^/app/(.*)$",
       "target": "$1",

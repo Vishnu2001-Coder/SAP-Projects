@@ -98,7 +98,7 @@
           ]
         },
         {
-          "pattern": "Books({key}):?query:",
+          "pattern": ":?queryBooks({key}):",
           "name": "BooksObjectPage",
           "target": [
             "BooksList",

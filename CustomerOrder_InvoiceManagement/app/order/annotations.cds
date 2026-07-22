@@ -4,46 +4,38 @@ annotate service.SalesOrders actions {
 
     confirmOrder @(
         Common.IsActionCritical: true,
-        Common.SideEffects     : {
-            TargetProperties: [
-                'in/status',
-                'in/statusCriticality',
-                'in/trackingNumber',
-                'in/orderDate',
-                'in/totalAmount'
-            ]
-        }
+        Common.SideEffects     : {TargetProperties: [
+            'in/status',
+            'in/statusCriticality',
+            'in/trackingNumber',
+            'in/orderDate',
+            'in/totalAmount'
+        ]}
     );
 
-    shipOrder @(
+    shipOrder    @(
         Common.IsActionCritical: true,
-        Common.SideEffects     : {
-            TargetProperties: [
-                'in/status',
-                'in/statusCriticality'
-            ]
-        }
+        Common.SideEffects     : {TargetProperties: [
+            'in/status',
+            'in/statusCriticality'
+        ]}
     );
 
     deliverOrder @(
         Common.IsActionCritical: true,
-        Common.SideEffects     : {
-            TargetProperties: [
-                'in/status',
-                'in/statusCriticality',
-                'in/deliveryDate'
-            ]
-        }
+        Common.SideEffects     : {TargetProperties: [
+            'in/status',
+            'in/statusCriticality',
+            'in/deliveryDate'
+        ]}
     );
 
-    cancelOrder @(
+    cancelOrder  @(
         Common.IsActionCritical: true,
-        Common.SideEffects     : {
-            TargetProperties: [
-                'in/status',
-                'in/statusCriticality'
-            ]
-        }
+        Common.SideEffects     : {TargetProperties: [
+            'in/status',
+            'in/statusCriticality'
+        ]}
     );
 };
 
@@ -79,68 +71,81 @@ annotate service.SalesOrders with {
         Common.ValueListWithFixedValues: false,
     );
 
-    status @(
+    status   @(
         Common.ValueListWithFixedValues: true,
         Common.ValueList               : {
             $Type         : 'Common.ValueListType',
             CollectionPath: 'SalesOrders',
-            Parameters    : [
-                {
-                    $Type            : 'Common.ValueListParameterInOut',
-                    LocalDataProperty: status,
-                    ValueListProperty: 'status',
-                },
-            ],
+            Parameters    : [{
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: status,
+                ValueListProperty: 'status',
+            }, ],
         },
     );
 };
 
 annotate service.SalesOrders with @(
 
-    UI.SelectionFields: [
+    Aggregation.ApplySupported                    : {
+
+        Transformations       : [
+            'aggregate',
+            'groupby'
+
+        ],
+
+        PropertyRestrictions  : true,
+
+        GroupableProperties   : [status],
+
+        AggregatableProperties: [{Property: ID}]
+    },
+
+    UI.SelectionFields                            : [
         customer_ID,
         status,
         orderDate,
         totalAmount,
     ],
 
-    UI.LineItem: [
+    UI.LineItem                                   : [
         {
-            $Type: 'UI.DataField',
-            Label: 'Customer',
-            Value: customer.name,
+            $Type             : 'UI.DataField',
+            Label             : 'Customer',
+            Value             : customer.name,
             @HTML5.CssDefaults: {width: '200px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Total Amount (₹)',
-            Value: totalAmount,
+            $Type             : 'UI.DataField',
+            Label             : 'Total Amount (₹)',
+            Value             : totalAmount,
             @HTML5.CssDefaults: {width: '200px'}
         },
         {
-            $Type      : 'UI.DataField',
-            Label      : 'Status',
-            Value      : status,
-            Criticality: statusCriticality,
+            $Type             : 'UI.DataField',
+            Label             : 'Status',
+            Value             : status,
+            Criticality       : statusCriticality,
             @HTML5.CssDefaults: {width: '250px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Order Date',
-            Value: orderDate,
+            $Type             : 'UI.DataField',
+            Label             : 'Order Created Date',
+            Value             : orderDate,
             @HTML5.CssDefaults: {width: '200px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Tracking Number',
-            Value: trackingNumber,
+            $Type             : 'UI.DataField',
+            Label             : 'Tracking Number',
+            Value             : trackingNumber,
             @HTML5.CssDefaults: {width: '250px'}
         },
         {
-            $Type             : 'UI.DataFieldForAction',
-            Label             : 'Confirm',
-            Action            : 'MyService.confirmOrder',
-            ![@UI.Emphasized] : true,
+            $Type            : 'UI.DataFieldForAction',
+            Label            : 'Confirm',
+            Action           : 'MyService.confirmOrder',
+            ![@UI.Emphasized]: true,
         },
         {
             $Type : 'UI.DataFieldForAction',
@@ -157,24 +162,31 @@ annotate service.SalesOrders with @(
             Label : 'Cancel',
             Action: 'MyService.cancelOrder',
         },
+        // {
+
+        //     $Type : 'UI.DataFieldForAction',
+        //     Label : 'AutoShip Orders',
+        //     Action: 'MyService.EntityContainer/autoShipOrders',
+        // }
     ],
 
-    UI.HeaderInfo: {
+    UI.HeaderInfo                                 : {
         TypeName      : 'Sales Order',
         TypeNamePlural: 'Sales Orders',
+        //line item heading
         Title         : {
             $Type: 'UI.DataField',
-            Value: customer.name,
+            Value: customer.name, //top
         },
         Description   : {
             $Type      : 'UI.DataField',
-            Value      : status,
+            Value      : status, //under top
             Criticality: statusCriticality,
         },
-        ImageUrl      : items.product.imageUrl,
+        ImageUrl      : items.product.imageUrl, //header inage
     },
 
-    UI.HeaderFacets: [
+    UI.HeaderFacets                               : [
         {
             $Type : 'UI.ReferenceFacet',
             ID    : 'TotalAmountKPI',
@@ -192,24 +204,24 @@ annotate service.SalesOrders with @(
         },
     ],
 
-    UI.DataPoint #TotalAmount: {
+    UI.DataPoint #TotalAmount                     : { //create and map in header facet
         Value      : totalAmount,
         Title      : 'Total Amount (₹)',
-        Criticality: statusCriticality,
+        Criticality: 2,
     },
 
-    UI.DataPoint #OrderStatus: {
+    UI.DataPoint #OrderStatus                     : {
         Value      : status,
         Title      : 'Order Status',
         Criticality: statusCriticality,
     },
 
-    UI.DataPoint #DeliveryDate: {
+    UI.DataPoint #DeliveryDate                    : {
         Value: deliveryDate,
         Title: 'Delivery Date',
     },
 
-    UI.Facets: [
+    UI.Facets                                     : [
         {
             $Type : 'UI.ReferenceFacet',
             ID    : 'OrderInfoFacet',
@@ -218,19 +230,20 @@ annotate service.SalesOrders with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            ID    : 'DeliveryFacet',
-            Label : 'Delivery Information',
-            Target: '@UI.FieldGroup#Delivery',
-        },
-        {
-            $Type : 'UI.ReferenceFacet',
             ID    : 'ItemsFacet',
             Label : 'Order Items',
             Target: 'items/@UI.LineItem#OrderItemsTable',
         },
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID    : 'DeliveryFacet',
+            Label : 'Delivery Information',
+            Target: '@UI.FieldGroup#Delivery',
+        },
+
     ],
 
-    UI.FieldGroup #OrderInfo: {
+    UI.FieldGroup #OrderInfo                      : {
         $Type: 'UI.FieldGroupType',
         Label: 'Order Information',
         Data : [
@@ -247,7 +260,7 @@ annotate service.SalesOrders with @(
             },
             {
                 $Type: 'UI.DataField',
-                Label: 'Order Date',
+                Label: 'Order Created Date',
                 Value: orderDate,
             },
             {
@@ -258,7 +271,7 @@ annotate service.SalesOrders with @(
         ],
     },
 
-    UI.FieldGroup #Delivery: {
+    UI.FieldGroup #Delivery                       : {
         $Type: 'UI.FieldGroupType',
         Label: 'Delivery Information',
         Data : [
@@ -274,9 +287,28 @@ annotate service.SalesOrders with @(
             },
             {
                 $Type: 'UI.DataField',
-                Label: 'Delivery Date',
+                Label: 'Deliverd Date',
                 Value: deliveryDate,
             },
+             {
+                $Type: 'UI.DataField',
+                Label: 'Delivery Expected Date',
+                Value: deliveryExpectDate,
+            },
+        ],
+    },
+    Analytics.AggregatedProperty #ID_countdistinct: {
+        $Type               : 'Analytics.AggregatedPropertyType',
+        Name                : 'ID_countdistinct',
+        AggregatableProperty: ID,
+        AggregationMethod   : 'countdistinct',
+        @Common.Label       : 'ID (Count Distinct Values)',
+    },
+    UI.Chart #alpChart                            : {
+        $Type          : 'UI.ChartDefinitionType',
+        ChartType      : #Bar,
+        Dimensions     : [status, ],
+        DynamicMeasures: ['@Analytics.AggregatedProperty#ID_countdistinct',
         ],
     },
 );
@@ -314,59 +346,67 @@ annotate service.OrderItems with {
     );
 };
 
-annotate service.OrderItems with @Common.SideEffects#itemChange: {
-    SourceProperties: ['product_ID', 'quantity'],
-    TargetProperties: ['unitPrice', 'taxAmount', 'discount', 'lineTotal']
+annotate service.OrderItems with @Common.SideEffects #itemChange: {
+    SourceProperties: [
+        'product_ID',
+        'quantity'
+    ],
+    TargetProperties: [
+        'unitPrice',
+        'taxAmount',
+        'discount',
+        'lineTotal'
+    ]
 };
 
 annotate service.OrderItems with @(
 
-    UI.LineItem #OrderItemsTable: [
+    UI.LineItem #OrderItemsTable     : [
         {
-            $Type : 'UI.DataField',
-            Label : 'Product Image',
-            Value : product.imageUrl,
+            $Type             : 'UI.DataField',
+            Label             : 'Product Image',
+            Value             : product.imageUrl,
             @HTML5.CssDefaults: {width: '150px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Product',
-            Value: product.name,
+            $Type             : 'UI.DataField',
+            Label             : 'Product',
+            Value             : product.name,
             @HTML5.CssDefaults: {width: '150px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Quantity',
-            Value: quantity,
+            $Type             : 'UI.DataField',
+            Label             : 'Quantity',
+            Value             : quantity,
             @HTML5.CssDefaults: {width: '150px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Unit Price (₹)',
-            Value: unitPrice,
+            $Type             : 'UI.DataField',
+            Label             : 'Unit Price (₹)',
+            Value             : unitPrice,
             @HTML5.CssDefaults: {width: '150px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Discount (₹)',
-            Value: discount,
+            $Type             : 'UI.DataField',
+            Label             : 'Discount (₹)',
+            Value             : discount,
             @HTML5.CssDefaults: {width: '150px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Tax Amount (₹)',
-            Value: taxAmount,
+            $Type             : 'UI.DataField',
+            Label             : 'Tax Amount (₹)',
+            Value             : taxAmount,
             @HTML5.CssDefaults: {width: '150px'}
         },
         {
-            $Type: 'UI.DataField',
-            Label: 'Line Total (₹)',
-            Value: lineTotal,
+            $Type             : 'UI.DataField',
+            Label             : 'Line Total (₹)',
+            Value             : lineTotal,
             @HTML5.CssDefaults: {width: '150px'}
         },
     ],
 
-    UI.HeaderInfo: {
+    UI.HeaderInfo                    : {
         TypeName      : 'Order Item',
         TypeNamePlural: 'Order Items',
         Title         : {
@@ -380,7 +420,7 @@ annotate service.OrderItems with @(
         ImageUrl      : product.imageUrl,
     },
 
-    UI.HeaderFacets: [
+    UI.HeaderFacets                  : [
         {
             $Type : 'UI.ReferenceFacet',
             ID    : 'LineTotalKPI',
@@ -393,17 +433,17 @@ annotate service.OrderItems with @(
         },
     ],
 
-    UI.DataPoint #LineTotal: {
+    UI.DataPoint #LineTotal          : {
         Value: lineTotal,
         Title: 'Line Total (₹)',
     },
 
-    UI.DataPoint #Quantity: {
+    UI.DataPoint #Quantity           : {
         Value: quantity,
         Title: 'Quantity',
     },
 
-    UI.Facets: [
+    UI.Facets                        : [
         {
             $Type : 'UI.ReferenceFacet',
             ID    : 'OrderItemFacet',
@@ -418,7 +458,7 @@ annotate service.OrderItems with @(
         },
     ],
 
-    UI.FieldGroup #OrderItem: {
+    UI.FieldGroup #OrderItem         : {
         $Type: 'UI.FieldGroupType',
         Label: 'Item Details',
         Data : [
@@ -508,7 +548,7 @@ annotate service.OrderItems with @(
 //         },
 //         Common.ValueListWithFixedValues: false,
 
-        
+
 //     );
 
 //     //  Status — fixed dropdown
@@ -527,7 +567,7 @@ annotate service.OrderItems with @(
 //         },
 //     );
 
-    
+
 // };
 
 
@@ -619,7 +659,7 @@ annotate service.OrderItems with @(
 //         },
 //     },
 
-  
+
 //     UI.HeaderFacets: [
 //         {
 //             $Type : 'UI.ReferenceFacet',
@@ -645,7 +685,7 @@ annotate service.OrderItems with @(
 //         Criticality: statusCriticality,
 //     },
 
- 
+
 //     UI.Facets: [
 //         {
 //             $Type : 'UI.ReferenceFacet',
@@ -668,7 +708,6 @@ annotate service.OrderItems with @(
 //         },
 //     ],
 
- 
 
 //     // Facet 1 — Order Information
 //     UI.FieldGroup #OrderInfo: {
@@ -724,10 +763,9 @@ annotate service.OrderItems with @(
 // );
 
 
-
 // annotate service.OrderItems with {
 
-//     // Product Value Help 
+//     // Product Value Help
 //     product @(
 //         Common.ValueList               : {
 //             $Type         : 'Common.ValueListType',

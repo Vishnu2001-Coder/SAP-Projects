@@ -1,5 +1,5 @@
 namespace CustomerOrderDb;
-using {managed} from '@sap/cds/common';
+using {managed,sap.common.CodeList,temporal} from '@sap/cds/common';
 
 
 
@@ -42,7 +42,7 @@ entity ExternalProducts as projection on api.A_Product;
 // CUSTOMERS
 // =========================
 
-entity Customers : managed {
+entity Customers : managed ,CodeList,temporal{
 
     key ID              : UUID;
 
@@ -50,7 +50,7 @@ entity Customers : managed {
 
         name            : String(100)  @mandatory;
 
-        email           : String(100)  @mandatory  @assert.format: '^[a-z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com)$';
+        email           : String(100) @Communication.IsEmailAddress @mandatory  @assert.format: '^[a-z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com)$';
 
         phone           : String(15)   @mandatory  @assert.unique  @assert.format: '^[0-9]{10}$';
 
@@ -84,18 +84,7 @@ entity Products : managed {
 
         unitPrice   : Decimal(15, 2) @readonly;
 
-        @assert.range      : [
-            'Electronics',
-            'Clothing',
-            'HomeAppliances',
-            'Books',
-            'Toys',
-            'Sports',
-            'Beauty',
-            'Automotive',
-            'Grocery',
-            'Health'
-        ]
+        @assert.range      : ['Electronics','Clothing','HomeAppliances','Books','Toys','Sports','Beauty','Automotive','Grocery', 'Health']
         category    : Category      @readonly; //!!!
 
         taxRate     : Decimal(15, 2) @readonly;
@@ -130,12 +119,14 @@ entity SalesOrders : managed {
 
         totalAmount     : Decimal(15, 2) @readonly;
 
-        status          : OrderStatus default 'Draft';
+        status          : OrderStatus default 'Draft' @readonly;
 
         orderDate       : Date  @readonly;
 
         trackingNumber  : String(50) default 'not yet order confirm' @readonly;
 
+        deliveryExpectDate :Date @readonly;
+        
         deliveryDate    : Date  @readonly;
 
         statusCriticality : Integer default 5; 
@@ -191,17 +182,21 @@ entity Invoices : managed {
 
         status      : InvoiceStatus default 'Pending';
 
+        statusCriticality : Integer default 1; 
+
         paidOn      : Date;
 
         paymentreference : String(100);
+
+        invoiceLink  :String default 'Not Yet Created';
 }
 
-entity Categories {
-    key ID            : UUID;
-        name          : String(50) @assert.unique;
-        taxPercentage : String not null;
+// entity Categories {
+//     key ID            : UUID;
+//         name          : String(50) @assert.unique;
+//         taxPercentage : String not null;
 
-}
+// }
 
 
 /* not null (Without @)                            @mandatory,@assert.unique

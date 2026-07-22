@@ -2,7 +2,7 @@ const cds=require('@sap/cds');
 const { INSERT, SELECT } = require('@sap/cds/lib/ql/cds-ql');
 module.exports=cds.service.impl(async function(){
   
- 
+
 
 
     this.on('CREATE','*',async (req)=>{
@@ -27,7 +27,7 @@ module.exports=cds.service.impl(async function(){
             const data = await SELECT.from('Orders');
             console.log(data);
             
-            let result=[data,draft]
+            let result=[...data,...draft]
             console.log(result);
             
             // console.log(result)

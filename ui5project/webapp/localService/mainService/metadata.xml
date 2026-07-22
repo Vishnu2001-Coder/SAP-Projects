@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
+        <edmx:Include Alias="Communication" Namespace="com.sap.vocabularies.Communication.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/HTML5.xml">
+        <edmx:Include Alias="HTML5" Namespace="com.sap.vocabularies.HTML5.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+        <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="MyService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotation Term="Core.Links">
+                <Collection>
+                    <Record>
+                        <PropertyValue Property="rel" String="author"/>
+                        <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+                    </Record>
+                </Collection>
+            </Annotation>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Books" EntityType="MyService.Books">
+                    <NavigationPropertyBinding Path="stock" Target="status"/>
+                    <NavigationPropertyBinding Path="Person" Target="Person"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="Books"/>
+                </EntitySet>
+                <EntitySet Name="Person" EntityType="MyService.Person">
+                    <NavigationPropertyBinding Path="Books" Target="Books"/>
+                </EntitySet>
+                <EntitySet Name="status" EntityType="MyService.status">
+                    <NavigationPropertyBinding Path="Books" Target="Books"/>
+                </EntitySet>
+                <ActionImport Name="update1" Action="MyService.update1"/>
+            </EntityContainer>
+            <EntityType Name="Books">
+                <Key>
+                    <PropertyRef Name="id"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false"/>
+                <Property Name="author_name" Type="Edm.String"/>
+                <Property Name="book_name" Type="Edm.String"/>
+                <Property Name="Date" Type="Edm.DateTimeOffset" Precision="7"/>
+                <NavigationProperty Name="stock" Type="MyService.status" Partner="Books">
+                    <ReferentialConstraint Property="stock_stocks" ReferencedProperty="stocks"/>
+                </NavigationProperty>
+                <Property Name="stock_stocks" Type="Edm.String"/>
+                <NavigationProperty Name="Person" Type="Collection(MyService.Person)" Partner="Books"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="MyService.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="MyService.Books"/>
+                <Property Name="DraftMessages" Type="Collection(MyService.DRAFT_DraftAdministrativeData_DraftMessage)" Nullable="true"/>
+            </EntityType>
+            <EntityType Name="Person">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false"/>
+                <Property Name="P_name" Type="Edm.String"/>
+                <Property Name="P_age" Type="Edm.String"/>
+                <NavigationProperty Name="Books" Type="MyService.Books" Partner="Person">
+                    <ReferentialConstraint Property="Books_id" ReferencedProperty="id"/>
+                </NavigationProperty>
+                <Property Name="Books_id" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="status">
+                <Key>
+                    <PropertyRef Name="stocks"/>
+                </Key>
+                <Property Name="stocks" Type="Edm.String" Nullable="false"/>
+                <Property Name="criticality" Type="Edm.Int32"/>
+                <NavigationProperty Name="Books" Type="Collection(MyService.Books)" Partner="stock"/>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <ComplexType Name="DRAFT_DraftAdministrativeData_DraftMessage">
+                <Property Name="code" Type="Edm.String"/>
+                <Property Name="message" Type="Edm.String"/>
+                <Property Name="target" Type="Edm.String"/>
+                <Property Name="additionalTargets" Type="Collection(Edm.String)" Nullable="true"/>
+                <Property Name="transition" Type="Edm.Boolean"/>
+                <Property Name="numericSeverity" Type="Edm.Byte"/>
+                <Property Name="longtextUrl" Type="Edm.String"/>
+            </ComplexType>
+            <Action Name="update" IsBound="true">
+                <Parameter Name="in" Type="MyService.Books"/>
+                <Parameter Name="name" Type="Edm.String"/>
+                <ReturnType Type="Edm.String"/>
+            </Action>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="MyService.Books"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="MyService.Books"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="MyService.Books"/>
+                <ReturnType Type="MyService.Books"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="MyService.Books"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="MyService.Books"/>
+            </Action>
+            <Action Name="update1" IsBound="false">
+                <Parameter Name="id" Type="Edm.String"/>
+                <Parameter Name="name" Type="Edm.String"/>
+                <ReturnType Type="Edm.String"/>
+            </Action>
+            <Annotations Target="MyService.EntityContainer">
+                <Annotation Term="Common.AddressViaNavigationPath" Bool="true"/>
+            </Annotations>
+            <Annotations Target="MyService.Books">
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>book_name</PropertyPath>
+                        <PropertyPath>Person_id</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="ID"/>
+                            <PropertyValue Property="Value" Path="id"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record Type="HTML5.CssDefaultsType">
+                                    <PropertyValue Property="width" String="150px"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="author_name"/>
+                            <PropertyValue Property="Value" Path="author_name"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record Type="HTML5.CssDefaultsType">
+                                    <PropertyValue Property="width" String="150px"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="book_name"/>
+                            <PropertyValue Property="Value" Path="book_name"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record Type="HTML5.CssDefaultsType">
+                                    <PropertyValue Property="width" String="150px"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Stock"/>
+                            <PropertyValue Property="Value" Path="stock_stocks"/>
+                            <PropertyValue Property="Criticality" Path="stock/criticality"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record Type="HTML5.CssDefaultsType">
+                                    <PropertyValue Property="width" String="150px"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Date"/>
+                            <PropertyValue Property="Value" Path="Date"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record Type="HTML5.CssDefaultsType">
+                                    <PropertyValue Property="width" String="150px"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Update Button"/>
+                            <PropertyValue Property="Action" String="MyService.EntityContainer/update1"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record Type="HTML5.CssDefaultsType">
+                                    <PropertyValue Property="width" String="150px"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Update Button"/>
+                            <PropertyValue Property="Action" String="MyService.EntityContainer/update1"/>
+                            <PropertyValue Property="Inline" Bool="true"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.HeaderInfo">
+                    <Record Type="UI.HeaderInfoType">
+                        <PropertyValue Property="TypeName" String="Order"/>
+                        <PropertyValue Property="TypeNamePlural" String="Orders"/>
+                        <PropertyValue Property="TypeImageUrl" String="sap-icon://accelerated"/>
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" String="Order Page"/>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" String="This is Page For Single Record"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="GeneratedGroup">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="id"/>
+                                    <PropertyValue Property="Value" Path="id"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="author_name"/>
+                                    <PropertyValue Property="Value" Path="author_name"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="book_name"/>
+                                    <PropertyValue Property="Value" Path="book_name"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="stock"/>
+                                    <PropertyValue Property="Value" Path="stock_stocks"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Date"/>
+                                    <PropertyValue Property="Value" Path="Date"/>
+                                    <Annotation Term="HTML5.CssDefaults">
+                                        <Record Type="HTML5.CssDefaultsType">
+                                            <PropertyValue Property="width" String="150px"/>
+                                        </Record>
+                                    </Annotation>
+                                </Record>
+                                <Record Type="UI.DataFieldWithUrl">
+                                    <PropertyValue Property="Label" String="Trigger Url"/>
+                                    <PropertyValue Property="Value" String="Google"/>
+                                    <PropertyValue Property="Url" String="https://www.google.com/"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.HeaderFacets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="ID" String="Facet1"/>
+                            <PropertyValue Property="Label" String="General"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneratedGroup"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="ID" String="Generated1"/>
+                            <PropertyValue Property="Label" String="General Information"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneratedGroup"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Normal"/>
+                            <PropertyValue Property="ID" String="Normal"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#Normal"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="ID" String="Facet3"/>
+                            <PropertyValue Property="Label" String="Person"/>
+                            <PropertyValue Property="Target" AnnotationPath="Person/@UI.LineItem#line1"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Table"/>
+                            <PropertyValue Property="ID" String="Table"/>
+                            <PropertyValue Property="Target" AnnotationPath="Person/@UI.LineItem"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="Normal">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Person/id"/>
+                                    <PropertyValue Property="Label" String="id"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Person/P_age"/>
+                                    <PropertyValue Property="Label" String="P_age"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Person/P_name"/>
+                                    <PropertyValue Property="Label" String="P_name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MaxItems" Int="2"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Communication.Contact" Qualifier="contact">
+                    <Record Type="Communication.ContactType">
+                        <PropertyValue Property="fn" Path="id"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.SideEffects" Qualifier="alwaysFetchMessages">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="SourceEntities">
+                            <Collection>
+                                <NavigationPropertyPath>
+                                </NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="TargetProperties">
+                            <Collection>
+                                <String>DraftMessages</String>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.Messages" Path="DraftMessages"/>
+            </Annotations>
+            <Annotations Target="MyService.EntityContainer/Books">
+                <Annotation Term="UI.PresentationVariant">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MaxItems" Int="2"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="MyService.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="MyService.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="MyService.draftPrepare"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.SideEffects" Qualifier="alwaysFetchMessages">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="SourceEntities">
+                            <Collection>
+                                <NavigationPropertyPath>
+                                </NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="TargetProperties">
+                            <Collection>
+                                <String>DraftMessages</String>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="MyService.Books/id">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="MyService.Books/Date">
+                <Annotation Term="UI.DateTimeStyle" String="short"/>
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="MyService.Books/stock_stocks">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="status"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="stock"/>
+                                    <PropertyValue Property="ValueListProperty" String="stocks"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+            </Annotations>
+            <Annotations Target="MyService.Books/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="MyService.Books/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="MyService.Books/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="MyService.Books/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="MyService.Books/DraftMessages">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="MyService.Person">
+                <Annotation Term="UI.FieldGroup" Qualifier="GeneratedGroup1">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="ID"/>
+                                    <PropertyValue Property="Value" Path="id"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Name"/>
+                                    <PropertyValue Property="Value" Path="P_name"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Age"/>
+                                    <PropertyValue Property="Value" Path="P_age"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.LineItem" Qualifier="line1">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="ID"/>
+                            <PropertyValue Property="Value" Path="id"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name"/>
+                            <PropertyValue Property="Value" Path="P_name"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Age"/>
+                            <PropertyValue Property="Value" Path="P_age"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="MyService.status/stocks">
+                <Annotation Term="Validation.AllowedValues">
+                    <Collection>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Available"/>
+                            <PropertyValue Property="Value" String="Available"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="OutOfStock"/>
+                            <PropertyValue Property="Value" String="OutOfStock"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Discontinued"/>
+                            <PropertyValue Property="Value" String="Discontinued"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData">
+                <Annotation Term="Common.Label" String="Draft Administrative Data"/>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData/DraftUUID">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft (Technical ID)"/>
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData/CreationDateTime">
+                <Annotation Term="Common.Label" String="Draft Created On"/>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData/CreatedByUser">
+                <Annotation Term="Common.Label" String="Draft Created By"/>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData/DraftIsCreatedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft Created By Me"/>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData/LastChangeDateTime">
+                <Annotation Term="Common.Label" String="Draft Last Changed On"/>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData/LastChangedByUser">
+                <Annotation Term="Common.Label" String="Draft Last Changed By"/>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData/InProcessByUser">
+                <Annotation Term="Common.Label" String="Draft In Process By"/>
+            </Annotations>
+            <Annotations Target="MyService.DraftAdministrativeData/DraftIsProcessedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft In Process By Me"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

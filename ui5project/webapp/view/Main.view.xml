@@ -1,0 +1,79 @@
+<mvc:View 
+    controllerName="ui5project.controller.Main" 
+    xmlns:mvc="sap.ui.core.mvc"                                           
+    xmlns="sap.m">          
+
+     <Table id="idProductsTable"                                     
+		inset="false"
+		 items="{ path: '/Books'}">                                                <!--  This is metadata Identifier name for particular entity -->
+
+		<columns>
+			<Column
+				width="12em">
+				<Text text="Book ID" />                                             <!-- Give a for ID every tag or Flexenabled:false in manifest-->   
+			</Column>
+			<Column
+				width="12em">
+				<Text text="Book Name" />
+			</Column>
+			<Column
+				width="12em">
+				<Text text="Author Name" />
+			</Column>
+			<Column
+				width="12em">
+				<Text text="Date" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem vAlign="Middle">
+				 <cells>                                                                 <!--  these are value cells , not a text -->
+					    <Text
+						text="{id}" />
+                        <!-- <Input value="{id}"></Input> -->
+                        <Text
+						text="{book_name}" />
+                        <Text
+						text="{author_name}" />
+                        <Text
+						text="{Date}" />
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+
+	<Button text="Click" press="onPress"/>                         
+ 
+</mvc:View>
+
+ 
+ <!-- <mvc:view></mvc:view> 
+Which is a root tag of Xml, this contain 3 main components
+ 1. Controller
+ 2.Core Component 
+ 3.UI5 Controls Library
+ 
+ -->
+
+<!-- 
+   xmlns:mvc="sap.ui.core.mvc"    
+MVC Framework Library -> Its a core component of UI5
+1. which have a Controller class
+2. whcih have a View Class
+	
+	because , our  View contain the Ui controls .So , Views internaly connected to controller . so we need to use MVC framework library 
+	       because any event is trigger that event function , written inside a Controller . so , using the Mvc library the UI5 to connect the UI5 controls to controller class.
+-->
+
+
+<!-- 
+Flow
+Our Xml file is processed by Xml parser and Ui5 .
+  xml just the check the syntax , then UI5 only run all the tag . 
+  Our Xml doent know the predefined tag .
+ -->
+
+ <!-- 
+ sap.m -> Ui5 Controls Library 
+     which contain a table , button , form , input , text , label etc..
+  -->

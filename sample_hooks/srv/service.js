@@ -32,7 +32,7 @@ module.exports=cds.service.impl(function(){    // we want to import that service
          } 
     });
 
-    //  this.after('CREATE', Students, (data, req) => {
+    //  this.after('CREATE', Students, (data, req) => {   // after req came form before handler
     //     console.log("After Hook Triggered");          
     //     console.log(data);                           // after db executes , use data
     //     data.name = data.name + " (Created)";

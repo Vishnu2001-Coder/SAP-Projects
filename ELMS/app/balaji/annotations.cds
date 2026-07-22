@@ -1,0 +1,1 @@
+using sample.srv.Myservice as service from '../../srv/service';

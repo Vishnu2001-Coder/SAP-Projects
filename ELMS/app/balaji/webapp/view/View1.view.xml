@@ -1,0 +1,9 @@
+<mvc:View controllerName="ns.balaji.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+    <content>
+    <Text id='a1' text="Hello World"/>
+    </content>
+    </Page>
+</mvc:View>

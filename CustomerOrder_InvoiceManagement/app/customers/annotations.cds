@@ -1,10 +1,20 @@
+
+
 using { MyService as service } from '../../srv/order-service';
 
-
+// =============================================
+// Field-level annotations for Customers
+// =============================================
 annotate service.Customers with {
 
+    customerCode @(
+        Common.Label        : 'Customer Code',
+        Common.FieldControl : #Mandatory
+    );
+
     name @(
-        Common.Label: 'Customer Name',
+        Common.Label        : 'Customer Name',
+        Common.FieldControl : #Mandatory,
         Common.ValueList: {
             $Type         : 'Common.ValueListType',
             CollectionPath: 'Customers',
@@ -32,7 +42,9 @@ annotate service.Customers with {
     );
 
     email @(
-        Common.Label: 'Email Address',
+        Common.Label        : 'Email Address',
+        Common.FieldControl : #Mandatory,
+        Validation.Pattern  : '^[a-zA-Z0-9._%+\-]+@(gmail\.com|yahoo\.com|outlook\.com)$',
         Common.ValueList: {
             $Type         : 'Common.ValueListType',
             CollectionPath: 'Customers',
@@ -55,9 +67,10 @@ annotate service.Customers with {
         Common.ValueListWithFixedValues: false,
     );
 
-
     phone @(
-        Common.Label: 'Phone Number',
+        Common.Label        : 'Phone Number',
+        Common.FieldControl : #Mandatory,
+        Validation.Pattern  : '^[6-9][0-9]{9}$',
         Common.ValueList: {
             $Type         : 'Common.ValueListType',
             CollectionPath: 'Customers',
@@ -80,9 +93,25 @@ annotate service.Customers with {
         Common.ValueListWithFixedValues: false,
     );
 
+    billingAddress @(
+        Common.Label        : 'Billing Address',
+        Common.FieldControl : #Mandatory
+    );
+
+    shippingAddress @(
+        Common.Label        : 'Shipping Address',
+        Common.FieldControl : #Mandatory
+    );
+
+    creditLimit @(
+        Common.Label: 'Credit Limit (₹)'
+    );
 };
 
 
+// =============================================
+// UI annotations for Customers
+// =============================================
 annotate service.Customers with @(
 
     UI.SelectionFields: [
@@ -118,17 +147,16 @@ annotate service.Customers with @(
             Value: creditLimit,
         },
         {
-            $Type             : 'UI.DataFieldForAction',
-            Label             : 'Add Customer',
-            Action            : 'MyService.EntityContainer/addCustomer',
-           
+            $Type : 'UI.DataFieldForAction',
+            Label : 'Add Customer',
+            Action: 'MyService.EntityContainer/addCustomer',
         },
     ],
 
     UI.HeaderInfo: {
         TypeName      : 'Customer',
         TypeNamePlural: 'Customers',
-        Title         : {
+        Title: {
             $Type: 'UI.DataField',
             Value: name,
         },
@@ -147,8 +175,9 @@ annotate service.Customers with @(
     ],
 
     UI.DataPoint #CreditLimit: {
-        Value: creditLimit,
-        Title: 'Credit Limit (₹)',
+        Value        : creditLimit,
+        Title        : 'Credit Limit (₹)',
+        Criticality  : #Neutral,
     },
 
     UI.Facets: [

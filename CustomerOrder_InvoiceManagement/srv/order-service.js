@@ -5,6 +5,7 @@ module.exports = cds.service.impl(async function () {
     const { SalesOrders, Customers, Products, OrderItems, ExternalProducts } = this.entities;
 
     const s4= await cds.connect.to('API_PRODUCT_SRV');
+    
 
     function getID(req) {
         console.log(`[getID] req.params:`, JSON.stringify(req.params));
@@ -146,7 +147,7 @@ module.exports = cds.service.impl(async function () {
     });
 
 
-    this.before('SAVE', SalesOrders, async (req) => {
+    this.before(['CREATE','UPDATE'], SalesOrders, async (req) => {
         try {
             const data = req.data;
             const tc   = cds.tx(req);
@@ -256,12 +257,17 @@ module.exports = cds.service.impl(async function () {
                 );
             }
 
+              const deleiveryExpectdate    = new Date();
+            deleiveryExpectdate.setDate(deleiveryExpectdate.getDate() + 4);                                        //
+            const delvry = deleiveryExpectdate.toISOString().split('T')[0];
+
             await tc.run(
                 UPDATE(SalesOrders)
                     .set({
                         status           : 'Confirmed',
                         statusCriticality: 3,
                         trackingNumber   : `TRK-${Date.now()}`,                 //unique number for every  Milliseconds
+                        deliveryExpectDate     :delvry
                     })
                     .where({ ID: id })
             );
@@ -344,6 +350,8 @@ module.exports = cds.service.impl(async function () {
                     totalAmount  : order.totalAmount,
                     taxAmount    : parseFloat(totalTax.toFixed(2)),
                     status       : 'Pending',
+                    statusCriticality :1,
+                    invoiceLink : 'Not Yet Created'
                 })
             );
 
@@ -405,155 +413,144 @@ module.exports = cds.service.impl(async function () {
 
 
     this.on('autoShipOrders', async (req) => {
-
-    const tc = cds.tx(req);
-
-    const orders = await tc.run(
-        SELECT.from(SalesOrders)
-        .where({ status: 'Confirmed' })
-    );
-
-    for (let order of orders) {
-
-        await tc.run(
-            UPDATE(SalesOrders)
-            .set({
-                status: 'Shipped',
-                statusCriticality: 5
-            })
-            .where({ ID: order.ID })
-        );
-
-        console.log(`Auto shipped order: ${order.ID}`);
-    }
-
-    return `Auto shipment completed`;
-});
-
-
-
-this.on('autoDeliverOrders', async (req) => {
     try {
-
         const tc = cds.tx(req);
 
-        // Find all shipped orders
-        const shippedOrders = await tc.run(
-            SELECT.from(SalesOrders)
-                .where({ status: 'Shipped' })
+        const confirmedOrders = await tc.run(
+            SELECT.from(SalesOrders).where({ status: 'Confirmed' })
         );
 
-        if (!shippedOrders.length) {
-            return req.info('No shipped orders found.');
+        if (!confirmedOrders.length) {
+            return req.info('No confirmed orders to ship.');
         }
 
-        for (let order of shippedOrders) {
+        let shippedCount = 0;
 
-            const orderItems = await tc.run(
-                SELECT.from(OrderItems)
-                    .where({ order_ID: order.ID })
-            );
-
-            const totalTax = orderItems.reduce(
-                (sum, i) => sum + Number(i.taxAmount || 0),
-                0
-            );
-
-            const today = new Date().toISOString().split('T')[0];
-
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 30);
-
-            const dueDateStr = dueDate
-                .toISOString()
-                .split('T')[0];
-
-            // Update order status
-            await tc.run(
-                UPDATE(SalesOrders)
-                    .set({
-                        status: 'Delivered',
-                        statusCriticality: 3,
-                        deliveryDate: today
-                    })
-                    .where({ ID: order.ID })
-            );
-
-            // Create invoice
-            await tc.run(
-                INSERT.into('CustomerOrderDb.Invoices').entries({
-                    salesOrder_ID: order.ID,
-                    invoiceDate: today,
-                    dueDate: dueDateStr,
-                    totalAmount: order.totalAmount,
-                    taxAmount: parseFloat(totalTax.toFixed(2)),
-                    status: 'Pending'
-                })
-            );
-
-            console.log(
-                `[autoDeliverOrders] Delivered Order: ${order.ID}`
-            );
+        for (let order of confirmedOrders) {
+            try {
+                await tc.run(
+                    UPDATE(SalesOrders)
+                        .set({ status: 'Shipped', statusCriticality: 5 })
+                        .where({ ID: order.ID })
+                );
+                console.log(`[autoShipOrders] Shipped Order: ${order.ID}`);
+                shippedCount++;
+            } catch (innerErr) {
+                console.error(`[autoShipOrders] Failed for Order ${order.ID}:`, innerErr.message);
+                // Continue processing remaining orders
+            }
         }
 
-        return req.info(
-            `${shippedOrders.length} orders delivered automatically.`
-        );
+        return req.info(`${shippedCount} order(s) shipped automatically.`);
 
     } catch (err) {
-
-        console.error(
-            `[autoDeliverOrders] Error:`,
-            err.message
-        );
-
+        console.error(`[autoShipOrders] Error:`, err.message);
         return req.error(500, err.message);
     }
 });
 
 
+this.on('autoDeliverOrders', async (req) => {
+    try {
+        const tc = cds.tx(req);
 
+        const shippedOrders = await tc.run(
+            SELECT.from(SalesOrders).where({ status: 'Shipped' })
+        );
 
+        if (!shippedOrders.length) {
+            return req.info('No shipped orders to deliver.');
+        }
 
+        let deliveredCount = 0;
 
+        for (let order of shippedOrders) {
+            try {
+                const orderItems = await tc.run(
+                    SELECT.from(OrderItems).where({ order_ID: order.ID })
+                );
 
+                const totalTax = parseFloat(
+                    orderItems
+                        .reduce((sum, i) => sum + Number(i.taxAmount || 0), 0)
+                        .toFixed(2)
+                );
 
+                const today = new Date().toISOString().split('T')[0];
 
+                const dueDate = new Date();
+                dueDate.setDate(dueDate.getDate() + 30);
+                const dueDateStr = dueDate.toISOString().split('T')[0];
 
+                await tc.run(
+                    UPDATE(SalesOrders)
+                        .set({
+                            status           : 'Delivered',
+                            statusCriticality: 3,
+                            deliveryDate     : today
+                        })
+                        .where({ ID: order.ID })
+                );
 
+                await tc.run(
+                    INSERT.into('CustomerOrderDb.Invoices').entries({
+                        salesOrder_ID: order.ID,
+                        invoiceDate  : today,
+                        dueDate      : dueDateStr,
+                        totalAmount  : order.totalAmount,
+                        taxAmount    : totalTax,
+                        status       : 'Pending'
+                    })
+                );
 
+                console.log(`[autoDeliverOrders] Delivered Order: ${order.ID}`);
+                deliveredCount++;
 
+            } catch (innerErr) {
+                console.error(`[autoDeliverOrders] Failed for Order ${order.ID}:`, innerErr.message);
+                // Continue processing remaining orders
+            }
+        }
 
+        return req.info(`${deliveredCount} order(s) delivered automatically.`);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    } catch (err) {
+        console.error(`[autoDeliverOrders] Error:`, err.message);
+        return req.error(500, err.message);
+    }
 });
+
+
+ this.on('addDats',async (req)=>{
+        console.log('hi');
+        
+        const customer=req.data.datas;       //this datas, having a customerObjects oR Product Objects
+        console.log(customer);
+        
+        const res=await INSERT.into(Products).entries(customer);
+        return "success";
+
+    })
+    });
+
+
+
+
+
+
+
+
+
+
+// });
 
 //Note:
 /*
 1.composition retriving
-2.every query returns an array, even if its single record, so we need to do [0] to get the first record. or we can do destructuring like const [order] = await tc.run(SELECT.from(SalesOrders).where({ ID: id })); and then use order instead of order[0]
+2.every query returns an array{[],[]}, even if its single record, so we need to do [0] to get the first record. or we can do destructuring like const [order] = await tc.run(SELECT.from(SalesOrders).where({ ID: id })); and then use order instead of order[0]
 3.if condition do opposite .
 4.define and create a object and then set the values and then update or insert instead of directly updating or inserting
-5.
+5.every bound action data comes in -> req.params[0].
 
 
 */

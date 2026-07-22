@@ -24,6 +24,18 @@
           "odataVersion": "4.01"
         }
       }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "products-display": {
+          "semanticObject": "products",
+          "action": "display",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
   },
   "sap.ui": {
@@ -85,7 +97,7 @@
       "config": {
         "flexibleColumnLayout": {
           "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
-          "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+          "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
         },
         "routerClass": "sap.f.routing.Router"
       },
@@ -123,7 +135,7 @@
           "options": {
             "settings": {
               "contextPath": "/SalesOrders",
-              "variantManagement": "Page",
+              "variantManagement": "None",
               "navigation": {
                 "SalesOrders": {
                   "detail": {
@@ -137,7 +149,25 @@
                     "type": "ResponsiveTable"
                   }
                 }
-              },"initialLoad": true
+              },
+              "initialLoad": true,
+              "views": {
+                "paths": [
+                  {
+                    "primary": [
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Chart#alpChart"
+                      }
+                    ],
+                    "secondary": [
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                      }
+                    ],
+                    "defaultPath": "both"
+                  }
+                ]
+              }
             }
           },
           "controlAggregation": "beginColumnPages",
@@ -193,5 +223,9 @@
     "app": {
       "enableLazyLoading": true
     }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "CustomerOrder_InvoiceManagement.service"
   }
 }

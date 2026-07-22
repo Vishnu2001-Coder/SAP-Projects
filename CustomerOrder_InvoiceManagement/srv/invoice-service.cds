@@ -13,19 +13,18 @@ service MyService1 @(impl: './invoice-service.js') {
             to   : ['Finance', 'Adminstrator']
         }
     ])
-    entity Invoices as projection on db.Invoices;
-
-    @(restrict: [{
-        grant: ['markAsPaid'],
-        to   : ['Finance', 'Adminstrator']
-    }])
-    action markAsPaid(invoiceID: UUID, paymentRef: String) returns String;
+    entity Invoices as projection on db.Invoices actions{
+        action markAsPaid( paymentRef: String) returns String;
+        action createInvoice() returns String;
+    };
+    
 
     @(restrict: [{
         grant: ['getOverdueInvoices'],
         to   : ['Finance', 'Adminstrator']
     }])
-    function getOverdueInvoices(daysOverdue: Integer) returns array of Invoices;
+    function getOverdueInvoices(daysOverdue: Date) returns array of Invoices;
+  
 }
 
 
