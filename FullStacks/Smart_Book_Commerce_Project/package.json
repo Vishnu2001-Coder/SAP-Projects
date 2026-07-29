@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "@cap-js/hana": "^2",
-    "@sap/cds": "^9"
+    "@sap/cds": "^9",
+    "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^2",
@@ -24,5 +25,12 @@
     "app/project1",
     "app/project2",
     "app/project3"
-  ]
+  ],
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": "mocked"
+      }
+    }
+  }
 }

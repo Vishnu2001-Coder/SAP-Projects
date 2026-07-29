@@ -1,0 +1,40 @@
+
+<mvc:View controllerName="royalenfield.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form">
+     <Page  title="{i18n>appTitle}" class="bgImage" id="tr1">
+            <customHeader>
+            <Bar>
+              <contentMiddle>
+                <Image
+                src="images/logo.jpg" width="120px" height="100px"/>    
+              </contentMiddle>
+            </Bar>
+            </customHeader>
+                <content>
+                    <VBox
+                        justifyContent="Center"
+                        alignItems="Center"
+                        height="100%">
+                        <form:SimpleForm
+                            editable="true"
+                            width="400px"
+                            title="Login Page"
+                            class="loginForm">
+                            <form:content>
+                                <Label text="Username"/>
+                                <Input placeholder="Enter User Name"/>
+                                <Label text="Password"/>
+                                <Input
+                                    type="Password"
+                                    placeholder="Enter Password"/>
+                                <Button text="Login" press="navLogin"></Button>
+                                <Link class="sapUiDisplayBlock"  text="SignUp" press="navSignup"/>
+                            </form:content>
+                        </form:SimpleForm>
+                    </VBox>
+                </content>
+    </Page>
+
+</mvc:View>

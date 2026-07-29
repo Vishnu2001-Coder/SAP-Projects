@@ -1,0 +1,23 @@
+{
+  "generationParameters": {
+    "generationDate": "Thu Jul 23 2026 12:43:06 GMT+0000 (Coordinated Universal Time)",
+    "generatorPlatform": "SAP Business Application Studio",
+    "serviceType": "OData URL",
+    "metadataFilename": "",
+    "serviceUrl": "https://69ce3fbftrial-dev-smart-book-commerce-project-srv.cfapps.us10-003.hana.ondemand.com/bookstore",
+    "appName": "uilayer",
+    "appTitle": "App Title",
+    "appDescription": "An SAP Fiori application.",
+    "appNamespace": "",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.150.0",
+    "enableEslint": true,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.29.0",
+    "template": "Basic V4",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}

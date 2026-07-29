@@ -17,6 +17,8 @@ modules:
     parameters:
       instances: 1
       buildpack: nodejs_buildpack
+      memory: 256M
+      disk-quota: 256M
     build-parameters:
       builder: npm-ci
     provides:
@@ -25,12 +27,15 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: Smart_Book_Commerce_Project-db
+      - name: Smart_Book_Commerce_Project-auth
 
   - name: Smart_Book_Commerce_Project-db-deployer
     type: hdb
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
+      memory: 256M
+      disk-quota: 256M
     requires:
       - name: Smart_Book_Commerce_Project-db
 
@@ -40,3 +45,16 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
+  - name: Smart_Book_Commerce_Project-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: Smart_Book_Commerce_Project-${org}-${space}
+        tenant-mode: dedicated
+        oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"

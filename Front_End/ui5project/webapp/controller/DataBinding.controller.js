@@ -16,7 +16,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel"],
         let studentModel = {
           Students: [
             {
-              name: "Vishnus",
+              name: "Vishnu",
               age: "24"
             },
             {

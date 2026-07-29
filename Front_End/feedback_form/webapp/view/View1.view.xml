@@ -1,0 +1,129 @@
+<mvc:View controllerName="formns.feedbackform.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Page id="page" class="pageBackground" >                                                <!--i18n Binding  title="hi" showNavButton="true"-->
+
+       <content>
+
+          <Panel
+                headerText="{i18n>title}"
+                expandable="true"
+                class="feedbackPanel"
+                width="55rem">
+
+                <content>
+
+            <VBox  class="sapUiMediumMargin" width="35rem">
+
+             <!-- Language Selector -->
+            <HBox justifyContent="Center" class="sapUiSmallMarginBottom">
+
+                <Label
+                    text="{i18n>language}"
+                    class="sapUiTinyMarginEnd"/>
+
+                <Select
+                    id="idLanguage"
+                    width="180px"
+                    selectedKey="en"
+                    change="onLanguageChange">
+
+                  <items>
+                       <core:Item key="en" text="{i18n>English}"/>
+                       <core:Item key="de" text="{i18n>German}"/>
+                      <core:Item key="ta" text="{i18n>Tamil}"/>
+                   </items>
+
+                </Select>
+
+            </HBox>
+
+                <!-- Name -->
+                <Label
+                    text="{i18n>labelName}"                                                        
+                    required="true"/>                                                                <!--json Binding--> <!--restict Attributes is just for red Star-->
+ 
+                <Input
+                    value="{models>/form/name}"
+                    placeholder="{i18n>placeholderName}"/>
+
+                <!-- Email -->
+                <Label
+                    text="{i18n>labelEmail}"
+                    required="true"/>
+
+                <Input
+                    value="{models>/form/email}"
+                    placeholder="{i18n>placeholderEmail}"
+                    type="Email"/>
+
+                <!-- Subject -->
+                <Label
+                    text="{i18n>labelSubject}"
+                    required="true"/>
+
+                <Input
+                    value="{models>/form/subject}"
+                    placeholder="{i18n>placeholderSubject}"/>
+
+                <!-- Message -->
+                <Label
+                    text="{i18n>labelMessage}"
+                    required="true"/>
+
+                <TextArea
+                    value="{models>/form/message}"
+                    placeholder="{i18n>placeholderMessage}"
+                    rows="5"/>
+
+                <!-- Total Feedback Count -->
+                <Text
+                   text="{= 'Total Feedback Submitted : ' + ${models>/total}}"
+                    class="sapUiSmallMarginTop"/>
+
+                <!-- Buttons -->
+                <HBox
+                    justifyContent="Center"
+                    class="sapUiMediumMarginTop">
+
+                    <Button
+                        text="{i18n>submit}"
+                        type="Emphasized"
+                        press="onSubmit"/>
+
+                    <Button
+                        text="{i18n>reset}"
+                        press="onReset"
+                        class="sapUiTinyMarginBegin"/>
+
+                </HBox>
+
+            </VBox>
+
+            </content>
+
+        </Panel>
+
+        </content>
+
+
+    </Page>
+
+</mvc:View>
+
+
+<!--NOTE
+1.page and Content is a controils which is used to organize a screnn in different section
+2.VBox arranges child controls vertically (top to bottom). ,width specifies how much horizontal space the VBox occupies.
+3.18n or json directly we can acces in VIEWS , In controoler dont convert , directly access like getOwnerComponet,getModel('i18n').getResorcesBundle() whether its for particuler text we want .
+4.HBox its used alogn th econtrols in Horizontally
+5.In Select controls has a CoreType which is sap.m.core and change is a Event   |Button press
+6.Panel is like an border, expandalble = true 
+7.use css , if own control mean use css as a desecentant selector like             see the panel
+
+
+
+-->
+
+
